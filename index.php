@@ -12,6 +12,9 @@
 			<h3>All blog posts</h3>
 		</div>
 		<div class="row">
+			<p>
+				<a href="create.php" class="btn btn-success">Create</a>
+			</p>
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
@@ -24,8 +27,8 @@
 					<?php
 					include 'database.php';
 					$pdo = Database::connect();
-					$sql = 'SELECT * FROM posts ORDER BY POST_ID';
-					foreach ((array)$pdo->query($sql) as $row) {
+					$sql = 'SELECT * FROM data.posts ORDER BY POST_ID';
+					foreach ($pdo->query($sql) as $row) {
 						echo '<tr>';
 						echo '<td>'.$row['USERNAME'].'</td>';
 						echo '<td>'.$row['CONTENT'].'</td>';
