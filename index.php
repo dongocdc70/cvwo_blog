@@ -1,3 +1,4 @@
+<?php require 'authenticate.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +26,7 @@
 				</thead>
 				<tbody>
 					<?php
-					include 'database.php';
+					require_once 'database.php';
 					$pdo = Database::connect();
 					$sql = 'SELECT * FROM data.posts ORDER BY `POST_ID`';
 					foreach ($pdo->query($sql) as $row) {

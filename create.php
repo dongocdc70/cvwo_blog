@@ -1,5 +1,6 @@
 <?php
 require 'database.php';
+require 'authenticate.php';
 
 if(!empty($_POST)) {
 	$usernameError = null;

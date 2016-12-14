@@ -14,20 +14,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-				$sql = "SELECT `USER_ID` FROM data.users WHERE `USERNAME` = ? and `PASSWORD` = PASSWORD(?)";
+		$sql = "SELECT `USER_ID` FROM data.users WHERE `USERNAME` = ? and `PASSWORD` = PASSWORD(?)";
 
-				$query = $pdo->prepare($sql);
-				$query->execute(array($username,$password));
-				$userid = $query->fetch(PDO::FETCH_ASSOC);
+		$query = $pdo->prepare($sql);
+		$query->execute(array($username,$password));
+		$userid = ($query->fetch(PDO::FETCH_ASSOC))['USER_ID'];
 
-				Database::disconnect();
+
 
         if(!empty($userid)) {
             session_start();
-            $_SESSION["authenticated"] = 'true';
+            $session_key = session_id();
+            $sql = "INSERT INTO data.sessions (`USER_ID`, `SESSION_KEY`, `SESSION_ADDRESS`, `SESSION_USERAGENT`, `SESSION_EXPIRES`) VALUES (?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR) )";
+            $query = $pdo->prepare($sql);
+            $query->execute(array($userid, $session_key, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']));
+            Database::disconnect();
             header('Location: index.php');
         }
         else {
+            Database::disconnect();
             header('Location: login.php?msg=failed');
         }
 
