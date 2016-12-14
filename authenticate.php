@@ -10,7 +10,7 @@ $sql = "SELECT `SESSION_ID` FROM data.sessions WHERE `SESSION_KEY` = ? AND `SESS
 $query = $pdo->prepare($sql);
 $query->execute(array($session_key, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']));
 $session_id = ($query->fetch(PDO::FETCH_ASSOC))['SESSION_ID'];
-if(empty($session_id)) {
+if(!isset($_SESSION['username']) || empty($session_id)) {
 	Database::disconnect();
 	header('Location: login.php');
 }

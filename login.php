@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if(!empty($userid)) {
             session_start();
+            $_SESSION['username'] = $username;
             $session_key = session_id();
             $sql = "INSERT INTO data.sessions (`USER_ID`, `SESSION_KEY`, `SESSION_ADDRESS`, `SESSION_USERAGENT`, `SESSION_EXPIRES`) VALUES (?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR) )";
             $query = $pdo->prepare($sql);
