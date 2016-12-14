@@ -27,7 +27,7 @@
 					<?php
 					include 'database.php';
 					$pdo = Database::connect();
-					$sql = 'SELECT * FROM data.posts ORDER BY POST_ID';
+					$sql = 'SELECT * FROM data.posts ORDER BY `POST_ID`';
 					foreach ($pdo->query($sql) as $row) {
 						echo '<tr>';
 						echo '<td>'.$row['USERNAME'].'</td>';

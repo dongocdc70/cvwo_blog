@@ -23,7 +23,7 @@ if(!empty($_POST)) {
 	if($valid) {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "INSERT INTO data.posts (USERNAME, CONTENT, DATE) values(?,?,now())";
+		$sql = "INSERT INTO data.posts (USERNAME, CONTENT, DATE_POSTED) values(?,?,now())";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($username,$content));
 		Database::disconnect();
