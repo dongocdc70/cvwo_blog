@@ -3,18 +3,11 @@ require 'database.php';
 require 'authenticate.php';
 
 if(!empty($_POST)) {
-	$usernameError = null;
 	$contentError = null;
 
-	$username = $_POST['username'];
 	$content = $_POST['content'];
 
 	$valid = true;
-
-	if(empty($username)) {
-		$usernameError = 'Please enter Username';
-		$valid = false;
-	}
 
 	if(empty($content)) {
 		$contentError = 'Please enter blog content';
@@ -24,9 +17,9 @@ if(!empty($_POST)) {
 	if($valid) {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "INSERT INTO data.posts (USERNAME, CONTENT, DATE_POSTED) values(?,?,now())";
+		$sql = "INSERT INTO data.posts (USER_ID, CONTENT, DATE_POSTED) values(?,?,now())";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($username,$content));
+		$q->execute(array($_SESSION['user_id'],$content));
 		Database::disconnect();
 		header("Location: index.php");
 	}
@@ -52,14 +45,6 @@ if(!empty($_POST)) {
 			</div>
 
 			<form action="create.php" class="form-horizontal" method="post">
-				<div class="form-group <?php echo !empty($contentError)?'error':''; ?>">
-					<label for="username">Username</label>
-					<input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo !empty($username)?$username:''; ?>">
-					<?php if(!empty($usernameError)): ?>
-						<span class="help-inline"><?php echo $usernameError ?></span>
-					<?php endif; ?>
-				</div>
-
 				<div class="form-group <?php echo !empty($contentError)?'error':''; ?>">
 					<label for="content">Content</label>
 					<input type="text" class="form-control" name="content" placeholder="Content" value="<?php echo !empty($content)?$content:''; ?>">

@@ -37,7 +37,7 @@
 						echo '<tr>';
 						echo '<td>'.$row['USERNAME'].'</td>';
 						echo '<td>'.$row['CONTENT'].'</td>';
-						echo '<td>'.$row['DATE'].'</td>';
+						echo '<td>'.$row['DATE_POSTED'].'</td>';
 						echo '<tr>';
 					}
 					Database::disconnect();
