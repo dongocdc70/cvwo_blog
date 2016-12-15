@@ -50,9 +50,12 @@
 						echo '<td>'.$row['USERNAME'].'</td>';
 						echo '<td>'.$row['CONTENT'].'</td>';
 						echo '<td>'.$row['DATE_POSTED'].'</td>';
+						echo '<td style="background-color: white; border-color: transparent;">';
+						echo '<a class="btn btn-primary" style="margin-right:10px;" href="comment.php?post_id='.$row['POST_ID'].'">Comment</a>';
 						if($row['USERNAME'] == $_SESSION['username']) {
-							echo '<td style="background-color: white; border-color: transparent;">'.'<a class="btn btn-danger delete" href="delete.php?post_id='.$row['POST_ID'].'">Delete</a>'.'</td>';
+							echo '<a class="btn btn-danger delete" href="delete.php?post_id='.$row['POST_ID'].'">Delete</a>';
 						}
+						echo '</td>';
 						echo '</tr>';
 
 						$sqlcomment = $pdo->prepare('SELECT *

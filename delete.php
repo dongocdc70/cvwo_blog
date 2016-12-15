@@ -3,6 +3,7 @@
     require_once 'database.php';
     $post_id = 0;
 
+    //must provide param for delete
     if (!empty($_GET['post_id'])) {
         $post_id = $_REQUEST['post_id'];
         $pdo = Database::connect();
@@ -27,6 +28,10 @@
 
         header("Location: index.php");
 
+    }
+
+    else {
+        header("Location: index.php");
     }
 
 ?>
