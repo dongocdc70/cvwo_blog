@@ -6,6 +6,19 @@
 	<title>My Blog</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script language="javascript" type="text/javascript">
+	$(document).ready(function(){
+	    $("a.delete").click(function(e){
+	        if(!confirm('Are you sure?')){
+	            e.preventDefault();
+	            return false;
+	        }
+	        return true;
+	    });
+	});
+	</script>
+
 </head>
 <body>
 	<div class="container">
@@ -38,6 +51,9 @@
 						echo '<td>'.$row['USERNAME'].'</td>';
 						echo '<td>'.$row['CONTENT'].'</td>';
 						echo '<td>'.$row['DATE_POSTED'].'</td>';
+						if($row['USERNAME'] == $_SESSION['username']) {
+							echo '<td>'.'<a class="btn btn-danger delete" href="delete.php?id='.$row['POST_ID'].'">Delete</a>'.'</td>';
+						}
 						echo '<tr>';
 					}
 					Database::disconnect();

@@ -2,7 +2,7 @@
 session_start();
 $session_key = session_id();
 
-require_once('database.php');
+require_once 'database.php';
 
 $pdo = Database::connect();
 $sql = "SELECT `SESSION_ID` FROM data.sessions WHERE `SESSION_KEY` = ? AND `SESSION_ADDRESS` = ? AND `SESSION_USERAGENT` = ? AND `SESSION_EXPIRES` > NOW()";
