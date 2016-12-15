@@ -33,7 +33,7 @@
 				user: root
 				password: root
 		* Run the SQL commands as in file schema.sql to set up the database
-		* Go to http://localhost/cvwo_blog to login
+		* Go to http://localhost/cvwo_blog/src to login
 		* These are the test accounts:
 				user: dongocduc
 				password: iamadmin
