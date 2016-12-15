@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<title>My Blog</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script language="javascript" type="text/javascript">
 	$(document).ready(function(){
@@ -30,7 +29,7 @@
 				<a href="create.php" class="btn btn-success">Create</a>
 				<a href="logout.php" class="btn btn-danger">Log out</a>
 			</p>
-			<table class="table table-striped table-bordered">
+			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th>Username</th>
@@ -47,14 +46,39 @@
 									ON data.posts.`USER_ID` = data.users.`USER_ID`
 									ORDER BY `POST_ID`';
 					foreach ($pdo->query($sql) as $row) {
-						echo '<tr>';
+						echo '<tr class="success">';
 						echo '<td>'.$row['USERNAME'].'</td>';
 						echo '<td>'.$row['CONTENT'].'</td>';
 						echo '<td>'.$row['DATE_POSTED'].'</td>';
 						if($row['USERNAME'] == $_SESSION['username']) {
-							echo '<td>'.'<a class="btn btn-danger delete" href="delete.php?id='.$row['POST_ID'].'">Delete</a>'.'</td>';
+							echo '<td style="background-color: white; border-color: transparent;">'.'<a class="btn btn-danger delete" href="delete.php?id='.$row['POST_ID'].'">Delete</a>'.'</td>';
 						}
+						echo '</tr>';
+
+						$sqlcomment = $pdo->prepare('SELECT *
+																				 FROM data.comments JOIN data.users
+																				 ON data.comments.`USER_ID` = data.users.`USER_ID`
+																				 WHERE `POST_ID` = ?');
+						$sqlcomment->execute(array($row['POST_ID']));
+
+						$rowcomments = $sqlcomment->fetchAll();
+
 						echo '<tr>';
+						if(empty($rowcomments)) {
+							echo '<td colspan="3"><em>No comments yet.</em></td>';
+						}
+						else {
+							echo '<td colspan="3">';
+							echo '<h4>Comments</h4>';
+							echo '<ul>';
+							foreach($rowcomments as $rowcomment) {
+								echo '<li>'.$rowcomment['COMMENT_CONTENT'].' | '.$rowcomment['USERNAME'].' | '.$rowcomment['DATE_COMMENTED'].'</li>';
+							}
+							echo '</ul>';
+							echo '</td>';
+						}
+						echo '</tr>';
+
 					}
 					Database::disconnect();
 					 ?>
