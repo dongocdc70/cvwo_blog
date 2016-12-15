@@ -44,87 +44,7 @@
 				user: user2
 				password: user2
 
-3. SQL Schema:
-
-		--
-		-- Tables
-		--
-
-		CREATE DATABASE IF NOT EXISTS `data`;
-
-		CREATE TABLE `comments` (
-		  `COMMENT_ID` bigint(20) UNSIGNED NOT NULL,
-		  `USER_ID` bigint(20) NOT NULL,
-		  `POST_ID` bigint(20) NOT NULL,
-		  `COMMENT_CONTENT` text NOT NULL,
-		  `DATE_COMMENTED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-		)
-
-		CREATE TABLE `posts` (
-		  `POST_ID` bigint(20) UNSIGNED NOT NULL,
-		  `USER_ID` bigint(20) UNSIGNED NOT NULL,
-		  `CONTENT` longtext NOT NULL,
-		  `DATE_POSTED` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-		)
-
-		CREATE TABLE `sessions` (
-		  `SESSION_ID` bigint(20) UNSIGNED NOT NULL,
-		  `USER_ID` bigint(20) NOT NULL,
-		  `SESSION_KEY` varchar(60) NOT NULL,
-		  `SESSION_ADDRESS` varchar(100) NOT NULL,
-		  `SESSION_USERAGENT` varchar(200) NOT NULL,
-		  `SESSION_EXPIRES` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-		)
-
-		CREATE TABLE `users` (
-		  `USER_ID` bigint(20) UNSIGNED NOT NULL,
-		  `USERNAME` varchar(100) NOT NULL,
-		  `PASSWORD` varchar(64) NOT NULL,
-		  `DATE_REGISTERED` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-		)
-
-		--
-		-- Primary keys and auto-incrementing
-		--
-
-		ALTER TABLE `comments`
-		  ADD PRIMARY KEY (`COMMENT_ID`);
-
-		ALTER TABLE `posts`
-		  ADD PRIMARY KEY (`POST_ID`);
-
-		ALTER TABLE `sessions`
-		  ADD PRIMARY KEY (`SESSION_ID`),
-		  ADD KEY `IDX_SESSION_KEY` (`SESSION_KEY`);
-
-		ALTER TABLE `users`
-		  ADD PRIMARY KEY (`USER_ID`),
-		  ADD UNIQUE KEY `USERNAME` (`USERNAME`);
-
-		ALTER TABLE `comments`
-		  MODIFY `COMMENT_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
-		ALTER TABLE `posts`
-		  MODIFY `POST_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
-		ALTER TABLE `sessions`
-		  MODIFY `SESSION_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
-		ALTER TABLE `users`
-		  MODIFY `USER_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
-		--
-		-- Relations table
-		--
-
-		INSERT INTO `pma__relation` (`master_db`, `master_table`, `master_field`, `foreign_db`, `foreign_table`, `foreign_field`) VALUES
-			('data', 'comments', 'POST_ID', 'data', 'posts', 'POST_ID'),
-			('data', 'comments', 'USER_ID', 'data', 'users', 'USER_ID'),
-			('data', 'posts', 'USER_ID', 'data', 'users', 'USER_ID'),
-			('data', 'sessions', 'USER_ID', 'data', 'users', 'USER_ID');
-
-
-4. Main changelogs (according to git commits):
+3. Main changelogs (according to git commits):
 		* 13 Dec: set up database.php (PDO connection) and index.php (listing all posts)
 		 					set up create.php (create a blog post)
 		* 14 Dec: set up login.php (only registered users can access index.php)
@@ -134,7 +54,7 @@
 							set up delete.php (delete posts)
 							set up comment.php (comment on posts)
 
-5. To-do list (sorted by priority):
+4. To-do list (sorted by priority):
 		* Reformat index.php to separate into own posts and others' posts.
 		* Add pagination
 		* Add filter own posts by date
