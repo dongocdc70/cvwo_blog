@@ -1,4 +1,4 @@
-<?php require 'authenticate.php'; ?>
+<?php require 'helpers/authenticate.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +39,7 @@
 				</thead>
 				<tbody>
 					<?php
-					require_once 'database.php';
+					require_once 'helpers/database.php';
 					$pdo = Database::connect();
 					$sql = 'SELECT *
 									FROM data.posts JOIN data.users

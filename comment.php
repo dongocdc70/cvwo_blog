@@ -1,6 +1,6 @@
 <?php
-require 'database.php';
-require 'authenticate.php';
+require 'helpers/database.php';
+require 'helpers/authenticate.php';
 
 // must provide param after comment.php
 if (!empty($_GET['post_id'])) {

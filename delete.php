@@ -1,6 +1,6 @@
 <?php
-    require 'authenticate.php';
-    require_once 'database.php';
+    require 'helpers/database.php';
+    require 'helpers/authenticate.php';
     $post_id = 0;
 
     //must provide param for delete

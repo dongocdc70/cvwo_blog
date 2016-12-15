@@ -5,7 +5,7 @@ $password = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    require_once('database.php');
+    require_once('helpers/database.php');
 
     if(!empty($_POST["username"]) && !empty($_POST["password"])) {
         $pdo = Database::connect();
