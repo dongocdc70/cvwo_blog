@@ -51,7 +51,7 @@
 						echo '<td>'.$row['CONTENT'].'</td>';
 						echo '<td>'.$row['DATE_POSTED'].'</td>';
 						if($row['USERNAME'] == $_SESSION['username']) {
-							echo '<td style="background-color: white; border-color: transparent;">'.'<a class="btn btn-danger delete" href="delete.php?id='.$row['POST_ID'].'">Delete</a>'.'</td>';
+							echo '<td style="background-color: white; border-color: transparent;">'.'<a class="btn btn-danger delete" href="delete.php?post_id='.$row['POST_ID'].'">Delete</a>'.'</td>';
 						}
 						echo '</tr>';
 
