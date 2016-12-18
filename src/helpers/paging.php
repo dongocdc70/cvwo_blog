@@ -15,9 +15,39 @@ class paginate {
 
 		if($statement->rowCount() > 0) {
 			while($row=$statement->fetch(PDO::FETCH_ASSOC)) {
+				echo '<tr class="success">';
+				echo '<td>'.$row['USERNAME'].'</td>';
+				echo '<td>'.$row['CONTENT'].'</td>';
+				echo '<td>'.$row['DATE_POSTED'].'</td>';
+				echo '<td style="background-color: white; border-color: transparent;">';
+				echo '<a class="btn btn-primary" style="margin-right:10px;" href="comment.php?post_id='.$row['POST_ID'].'">Comment</a>';
+				if($row['USERNAME'] == $_SESSION['username']) {
+					echo '<a class="btn btn-danger delete" href="delete.php?post_id='.$row['POST_ID'].'">Delete</a>';
+				}
+				echo '</td>';
+				echo '</tr>';
+
+				$sqlcomment = $this->db->prepare('SELECT *
+																				 FROM data.comments JOIN data.users
+																				 ON data.comments.`USER_ID` = data.users.`USER_ID`
+																				 WHERE `POST_ID` = ?');
+				$sqlcomment->execute(array($row['POST_ID']));
+
+				$rowcomments = $sqlcomment->fetchAll();
+
 				echo '<tr>';
-				foreach ($row as $col) {
-					echo '<td>'.$col.'</td>';
+				if(empty($rowcomments)) {
+					echo '<td colspan="3"><em>No comments yet.</em></td>';
+				}
+				else {
+					echo '<td colspan="3">';
+					echo '<h4>Comments</h4>';
+					echo '<ul>';
+					foreach($rowcomments as $rowcomment) {
+						echo '<li>'.$rowcomment['COMMENT_CONTENT'].' | '.$rowcomment['USERNAME'].' | '.$rowcomment['DATE_COMMENTED'].'</li>';
+					}
+					echo '</ul>';
+					echo '</td>';
 				}
 				echo '</tr>';
 			}
@@ -46,7 +76,7 @@ class paginate {
     $total_no_of_records = $statement->rowCount();
 
     if($total_no_of_records > 0) {
-        echo '<tr><td colspan="99999" style="text-align: center;">';
+        echo '<tr><td colspan="3" style="text-align: center;">';
 
         $total_no_of_pages=ceil($total_no_of_records/$records_per_page);
         $current_page=1;

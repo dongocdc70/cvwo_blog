@@ -48,7 +48,7 @@ require 'helpers/authenticate.php';
 					$pdo = Database::connect();
 					$paginate = new paginate($pdo);
 
-					$query = 'SELECT `USERNAME`, `CONTENT`, `DATE_POSTED`
+					$query = 'SELECT *
 										FROM data.posts JOIN data.users
 										ON data.posts.`USER_ID` = data.users.`USER_ID`
 										ORDER BY `POST_ID`';
