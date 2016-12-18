@@ -11,7 +11,7 @@ class paginate {
 
 	public function dataview($query) {
 		$statement = $this->db->prepare($query);
-		$statement->execute();
+		$statement->execute(array($_SESSION['user_id']));
 
 		if($statement->rowCount() > 0) {
 			while($row=$statement->fetch(PDO::FETCH_ASSOC)) {
@@ -71,12 +71,14 @@ class paginate {
     $self = $_SERVER['PHP_SELF'];
 
     $statement = $this->db->prepare($query);
-    $statement->execute();
+    $statement->execute(array($_SESSION['user_id']));
 
     $total_no_of_records = $statement->rowCount();
 
     if($total_no_of_records > 0) {
-        echo '<tr><td colspan="3" style="text-align: center;">';
+        echo '<tr>';
+        echo '<td><strong>Go to page</strong></td>';
+        echo '<td colspan="2" style="text-align: center;">';
 
         $total_no_of_pages=ceil($total_no_of_records/$records_per_page);
         $current_page=1;

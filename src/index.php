@@ -1,5 +1,9 @@
 <?php
 require 'helpers/authenticate.php';
+require_once 'helpers/database.php';
+include_once 'helpers/paging.php';
+
+$pdo = Database::connect();
 ?>
 
 <!DOCTYPE html>
@@ -25,13 +29,17 @@ require 'helpers/authenticate.php';
 <body>
 	<div class="container">
 		<div class="row">
-			<h3>Welcome, <?php echo $_SESSION['username'] ?></h3>
+			<h1>Welcome, <?php echo $_SESSION['username'] ?></h1>
 		</div>
 		<div class="row">
 			<p>
 				<a href="create.php" class="btn btn-success">Create</a>
 				<a href="logout.php" class="btn btn-danger">Log out</a>
 			</p>
+		</div>
+
+		<div class="row">
+			<h1>Your post</h1>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -42,16 +50,15 @@ require 'helpers/authenticate.php';
 				</thead>
 				<tbody>
 					<?php
-					require_once 'helpers/database.php';
-					include_once 'helpers/paging.php';
 
-					$pdo = Database::connect();
 					$paginate = new paginate($pdo);
 
 					$query = 'SELECT *
 										FROM data.posts JOIN data.users
 										ON data.posts.`USER_ID` = data.users.`USER_ID`
+										WHERE data.users.`USER_ID` = ?
 										ORDER BY `POST_ID`';
+
 	        $records_per_page = 5;
 	        $newquery = $paginate->paging($query,$records_per_page);
 	        $paginate->dataview($newquery);
@@ -61,6 +68,38 @@ require 'helpers/authenticate.php';
 				</tbody>
 			</table>
 		</div>
+
+		<div class="row">
+			<h1>Post from others</h1>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Username</th>
+						<th>Post content</th>
+						<th>Date posted</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+
+					$paginate = new paginate($pdo);
+
+					$query = 'SELECT *
+										FROM data.posts JOIN data.users
+										ON data.posts.`USER_ID` = data.users.`USER_ID`
+										WHERE data.users.`USER_ID` <> ?
+										ORDER BY `POST_ID`';
+
+	        $records_per_page = 5;
+	        $newquery = $paginate->paging($query,$records_per_page);
+	        $paginate->dataview($newquery);
+	        $paginate->paginglink($query,$records_per_page);
+					Database::disconnect();
+					 ?>
+				</tbody>
+			</table>
+		</div>
+
 	</div>
 </body>
 </html>

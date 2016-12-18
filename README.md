@@ -53,10 +53,11 @@
 							fix create.php so that only registered users can create posts
 							set up delete.php (delete posts)
 							set up comment.php (comment on posts)
+		* 18 Dec: set up pagination for post display
+							reformat index.php to separate into own posts and others' posts.
 
 4. To-do list (sorted by priority):
-		* Reformat index.php to separate into own posts and others' posts.
-		* Add pagination
+		* Beautify post display
 		* Add filter own posts by date
 		* Add filter posts by users
 		* Support search for posts
