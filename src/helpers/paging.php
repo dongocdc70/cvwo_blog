@@ -76,7 +76,73 @@ class paginate {
     $total_no_of_records = $statement->rowCount();
 
     if($total_no_of_records > 0) {
-        echo '<tr>';
+    		$total_no_of_pages = ceil($total_no_of_records/$records_per_page);
+        $current_page = 1;
+        if(isset($_GET["page"])) {
+           $current_page = $_GET["page"];
+        }
+    		?>
+				<nav aria-label="Page navigation">
+				  <ul class="pagination">
+				  	<?php
+				  	if($current_page != 1) {
+				  	  $previous = $current_page - 1;
+				  	  echo '<li class="page-item">';
+				  	}
+				  	else {
+				  		$previous = 1;
+				  		echo '<li class="page-item disabled">';
+				  	}
+				  	?>
+
+				      <a class="page-link" href='<?php echo $self."?page=".$previous; ?>' aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				        <span class="sr-only">Previous</span>
+				      </a>
+				    </li>
+				    <?php
+            for($i=1; $i<=$total_no_of_pages; $i++) {
+            	if($i==$current_page) {
+                echo '<li class="page-item active"><a class="page-link" href="'.$self."?page=".$i.'">'.$i.'</a></li>';
+            	}
+    	        else {
+    	          echo '<li class="page-item"><a class="page-link" href="'.$self."?page=".$i.'">'.$i.'</a></li>';
+    	        }
+       			}
+				    ?>
+
+				    <?php
+				  	if($current_page != $total_no_of_pages) {
+				  	  $next = $current_page + 1;
+				  	  echo '<li class="page-item">';
+				  	}
+				  	else {
+				  		$next = $total_no_of_pages;
+				  		echo '<li class="page-item disabled">';
+				  	}
+				  	?>
+				      <a class="page-link" href='<?php echo $self."?page=".$next; ?>' aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				        <span class="sr-only">Next</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>
+    		<?php
+
+
+
+  	}
+	}
+}
+
+?>
+
+
+
+
+
+        <!-- echo '<tr>';
         echo '<td><strong>Go to page</strong></td>';
         echo '<td colspan="2" style="text-align: center;">';
 
@@ -108,9 +174,4 @@ class paginate {
 				    echo "<a href='".$self."?page=".$total_no_of_pages."'>Last</a>&nbsp;&nbsp;";
 				}
 
-   		  echo '</td></tr>';
-  	}
-	}
-}
-
-?>
+   		  echo '</td></tr>'; -->

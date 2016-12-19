@@ -90,7 +90,7 @@ $pdo = Database::connect();
 										WHERE data.users.`USER_ID` <> ?
 										ORDER BY `POST_ID`';
 
-	        $records_per_page = 5;
+	        $records_per_page = 1;
 	        $newquery = $paginate->paging($query,$records_per_page);
 	        $paginate->dataview($newquery);
 	        $paginate->paginglink($query,$records_per_page);
