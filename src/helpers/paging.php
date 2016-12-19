@@ -31,8 +31,29 @@ class paginate {
 				        		}
 				        echo '</h3>';
 				    echo '</a>';
+
+				    $sqlcomment = $this->db->prepare('SELECT COUNT(*)
+				    																 FROM data.comments JOIN data.users
+				    																 ON data.comments.`USER_ID` = data.users.`USER_ID`
+				    																 WHERE `POST_ID` = ?');
+				    $sqlcomment->execute(array($row['POST_ID']));
+						$comment = $sqlcomment->fetch()[0];
+
+						$comment_text = null;
+
+				    if($comment == 1) {
+				    	$comment_text = $comment.' comment';
+				    }
+				    elseif($comment > 1) {
+				    	$comment_text = $comment.' comments';
+				    }
+				    else {
+				    	$comment_text = 'No comment yet';
+				    }
+
+
 				    // IMPT *********************
-				    echo '<p class="post-meta">Posted by <a href="#">'.$row['USERNAME'].'</a> on '.date("F d, Y", strtotime($row['DATE_POSTED'])).'</p>';
+				    echo '<p class="post-meta">'.$comment_text.' | Posted by <a href="#">'.$row['USERNAME'].'</a> on '.date("F d, Y", strtotime($row['DATE_POSTED'])).'</p>';
 				    // IMPT *********************
 
 				echo '</div>';
