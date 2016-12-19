@@ -17,7 +17,7 @@ class paginate {
 			while($row=$statement->fetch(PDO::FETCH_ASSOC)) {
 				echo '<div class="post-preview">';
 						// IMPT *********************
-				    echo '<a href="#">';
+				    echo '<a href="view.php?post_id='.$row['POST_ID'].'">';
 				    // IMPT *********************
 				        echo '<h2 class="post-title">';
 				            echo $row['TITLE'];
@@ -57,7 +57,7 @@ class paginate {
 				    // IMPT *********************
 
 				echo '</div>';
-				echo '<a class="btn btn-primary" style="margin-right:10px;" href="comment.php?post_id='.$row['POST_ID'].'">Comment</a>';
+
 				if($row['USERNAME'] == $_SESSION['username']) {
 					echo '<a class="btn btn-danger delete" href="delete.php?post_id='.$row['POST_ID'].'">Delete</a>';
 				}
