@@ -11,49 +11,44 @@ class paginate {
 
 	public function dataview($query) {
 		$statement = $this->db->prepare($query);
-		$statement->execute(array($_SESSION['user_id']));
+		$statement->execute();
 
 		if($statement->rowCount() > 0) {
 			while($row=$statement->fetch(PDO::FETCH_ASSOC)) {
-				echo '<tr class="success">';
-				echo '<td>'.$row['USERNAME'].'</td>';
-				echo '<td>'.$row['CONTENT'].'</td>';
-				echo '<td>'.$row['DATE_POSTED'].'</td>';
-				echo '<td style="background-color: white; border-color: transparent;">';
+				echo '<div class="post-preview">';
+						// IMPT *********************
+				    echo '<a href="#">';
+				    // IMPT *********************
+				        echo '<h2 class="post-title">';
+				            echo $row['TITLE'];
+				        echo '</h2>';
+				        echo '<h3 class="post-subtitle">';
+				        		if(strlen($row['CONTENT']) < 300) {
+				        			echo $row['CONTENT'];
+				        		}
+				        		else {
+				        			echo substr($row['CONTENT'], 0, 300).'...';
+				        		}
+				        echo '</h3>';
+				    echo '</a>';
+				    // IMPT *********************
+				    echo '<p class="post-meta">Posted by <a href="#">'.$row['USERNAME'].'</a> on '.date("F d, Y", strtotime($row['DATE_POSTED'])).'</p>';
+				    // IMPT *********************
+
+				echo '</div>';
 				echo '<a class="btn btn-primary" style="margin-right:10px;" href="comment.php?post_id='.$row['POST_ID'].'">Comment</a>';
 				if($row['USERNAME'] == $_SESSION['username']) {
 					echo '<a class="btn btn-danger delete" href="delete.php?post_id='.$row['POST_ID'].'">Delete</a>';
 				}
-				echo '</td>';
-				echo '</tr>';
+				echo '<hr>';
 
-				$sqlcomment = $this->db->prepare('SELECT *
-																				 FROM data.comments JOIN data.users
-																				 ON data.comments.`USER_ID` = data.users.`USER_ID`
-																				 WHERE `POST_ID` = ?');
-				$sqlcomment->execute(array($row['POST_ID']));
 
-				$rowcomments = $sqlcomment->fetchAll();
 
-				echo '<tr>';
-				if(empty($rowcomments)) {
-					echo '<td colspan="3"><em>No comments yet.</em></td>';
-				}
-				else {
-					echo '<td colspan="3">';
-					echo '<h4>Comments</h4>';
-					echo '<ul>';
-					foreach($rowcomments as $rowcomment) {
-						echo '<li>'.$rowcomment['COMMENT_CONTENT'].' | '.$rowcomment['USERNAME'].' | '.$rowcomment['DATE_COMMENTED'].'</li>';
-					}
-					echo '</ul>';
-					echo '</td>';
-				}
-				echo '</tr>';
+
 			}
 		}
 		else {
-			echo '<tr><td>Nothing here...</td></tr>';
+			echo 'Nothing here yet...';
 		}
 	}
 
@@ -82,7 +77,7 @@ class paginate {
            $current_page = $_GET["page"];
         }
     		?>
-				<nav aria-label="Page navigation">
+				<nav aria-label="Page navigation" class="text-center">
 				  <ul class="pagination">
 				  	<?php
 				  	if($current_page != 1) {
@@ -137,3 +132,30 @@ class paginate {
 }
 
 ?>
+
+
+
+<!-- DISPLAY COMMENTS -->
+<!-- $sqlcomment = $this->db->prepare('SELECT *
+																 FROM data.comments JOIN data.users
+																 ON data.comments.`USER_ID` = data.users.`USER_ID`
+																 WHERE `POST_ID` = ?');
+$sqlcomment->execute(array($row['POST_ID']));
+
+$rowcomments = $sqlcomment->fetchAll();
+
+echo '<tr>';
+if(empty($rowcomments)) {
+	echo '<td colspan="3"><em>No comments yet.</em></td>';
+}
+else {
+	echo '<td colspan="3">';
+	echo '<h4>Comments</h4>';
+	echo '<ul>';
+	foreach($rowcomments as $rowcomment) {
+		echo '<li>'.$rowcomment['COMMENT_CONTENT'].' | '.$rowcomment['USERNAME'].' | '.$rowcomment['DATE_COMMENTED'].'</li>';
+	}
+	echo '</ul>';
+	echo '</td>';
+}
+echo '</tr>'; -->
