@@ -3,8 +3,9 @@ require 'helpers/database.php';
 require 'helpers/authenticate.php';
 
 // must provide param after comment.php
-if (!empty($_GET['post_id'])) {
-	$post_id = $_REQUEST['post_id'];
+if (isset($_POST['post_id']) && isset($_POST['comment'])) {
+	$post_id = $_POST['post_id'];
+
 	$pdo = Database::connect();
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -14,30 +15,40 @@ if (!empty($_GET['post_id'])) {
 	$q->execute(array($post_id));
 	if(!empty($q->fetch())) {
 		//comment content must not be empty
-		if(!empty($_POST)) {
-			$commentError = null;
+		$commentError = null;
+		$comment = $_POST['comment'];
+		$valid = true;
 
-			$comment = $_POST['comment'];
-
-			$valid = true;
-
-			if(empty($comment)) {
-				$commentError = 'Please enter comment';
-				$valid = false;
-			}
-
-			if($valid) {
-				$sql = "INSERT INTO data.comments (`USER_ID`, `POST_ID`, `COMMENT_CONTENT`, `DATE_COMMENTED`) VALUES (?, ?, ?, NOW())";
-				$q = $pdo->prepare($sql);
-				$q->execute(array($_SESSION['user_id'], $post_id, $comment));
-				Database::disconnect();
-				header("Location: index.php");
-			}
+		if(empty($comment)) {
+			$commentError = 'Please enter comment';
+			$valid = false;
 		}
+
+		if($valid) {
+			$sql = "INSERT INTO data.comments (`USER_ID`, `POST_ID`, `COMMENT_CONTENT`, `DATE_COMMENTED`) VALUES (?, ?, ?, NOW())";
+			$q = $pdo->prepare($sql);
+			$q->execute(array($_SESSION['user_id'], $post_id, $comment));
+			Database::disconnect();
+			echo '<li class="media">';
+			  echo '<div class="comment">';
+			    echo '<div class="media-body">';
+			      echo '<strong class="text-success">'.$_SESSION['username'].'&nbsp;</strong>';
+			      echo '<span class="text-muted">';
+			      echo '<small class="text-muted">Just now</small>';
+			      echo '</span>';
+			      echo '<p>';
+			        echo $comment;
+			      echo '</p>';
+			    echo '</div>';
+			    echo '<div class="clearfix"></div>';
+			  echo '</div>';
+			echo '</li>';
+		}
+
 	}
 
 	else {
-		header("Location: index.php");
+		echo "fail!";
 	}
 
 
@@ -45,13 +56,13 @@ if (!empty($_GET['post_id'])) {
 
 // if no param after comment.php
 else {
-	header("Location: index.php");
+	echo "fail!";
 }
 
 
  ?>
 
-
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,3 +95,4 @@ else {
 	</div>
 </body>
 </html>
+ -->

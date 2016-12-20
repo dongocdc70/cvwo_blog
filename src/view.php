@@ -21,7 +21,8 @@ if (!empty($_GET['post_id'])) {
 		$sqlcomment = $pdo->prepare('SELECT *
 																 FROM data.comments JOIN data.users
 																 ON data.comments.`USER_ID` = data.users.`USER_ID`
-																 WHERE `POST_ID` = ?');
+																 WHERE `POST_ID` = ?
+																 ORDER BY data.comments.`COMMENT_ID` DESC');
 		$sqlcomment->execute(array($post_id));
 		$rowcomments = $sqlcomment->fetchAll();
 
@@ -54,6 +55,7 @@ else {
 	<link href="css/view.css" rel="stylesheet">
 	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	<script src="js/jquery-3.1.1.min.js"></script>
 	<title><?php echo $res['TITLE']; ?></title>
 </head>
 <body>
@@ -95,15 +97,18 @@ else {
 	          Comments
 	        </div>
 	        <div class="panel-body comments">
-	          <textarea class="form-control" placeholder="Write your comment" rows="5"></textarea>
-	          <br>
-	          <button type="button" class="btn btn-info pull-right">Submit comment</button>
+	          <form method='post' action="" onsubmit="return post();">
+	          	<textarea id="cmt" class="form-control" placeholder="Write your comment" rows="5" required></textarea>
+	          	<br>
+	          	<input type="submit" value="Submit Comment">
+	          </form>
+
 	          <div class="clearfix"></div>
 	          <hr>
-	          <ul class="media-list">
+	          <ul class="media-list" id="all-comments">
 	            <?php if(empty($rowcomments)) {
 
-	            	echo '<li class="media">';
+	            	echo '<li class="media" id="no-comment">';
 	            	  echo '<div class="comment">';
 	            	    echo '<div class="media-body">';
 	            	      echo '<p>';
@@ -143,4 +148,50 @@ else {
 	  </div>
 	</div>
 </body>
+<script type="text/javascript">
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
+function post()
+{
+  var cmt = document.getElementById("cmt").value;
+  if(cmt)
+  {
+    $.ajax
+    ({
+      type: 'post',
+      url: 'comment.php',
+      data:
+      {
+      	post_id: getUrlParameter('post_id'),
+      	comment: cmt
+      },
+      success: function (response)
+      {
+      console.log('success!');
+	    document.getElementById("all-comments").innerHTML=response+document.getElementById("all-comments").innerHTML;
+	    document.getElementById("cmt").value="";
+	    if($('#no-comment')) {
+	    	$('#no-comment').remove();
+	    }
+
+      }
+    });
+  }
+
+  return false;
+}
+</script>
 </html>

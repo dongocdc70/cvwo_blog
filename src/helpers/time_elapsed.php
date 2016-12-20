@@ -1,6 +1,14 @@
 <?php
+require_once 'database.php';
+
 function time_elapsed_string($datetime, $full = false) {
-    $now = new DateTime;
+    $pdo = Database::connect();
+
+    $statement_now = $pdo->prepare('SELECT NOW()');
+    $statement_now->execute();
+    $now = $statement_now->fetch()[0];
+    $now = date_create_from_format('Y-m-d H:i:s', $now);
+
     $ago = new DateTime($datetime);
     $diff = $now->diff($ago);
 
