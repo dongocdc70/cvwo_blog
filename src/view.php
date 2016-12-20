@@ -187,6 +187,10 @@ function post()
 	    	$('#no-comment').remove();
 	    }
 
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+      	document.getElementById("cmt").value="";
+        alert('Comment got problem!');
       }
     });
   }

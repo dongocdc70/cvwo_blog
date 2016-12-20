@@ -13,6 +13,7 @@ if (isset($_POST['post_id']) && isset($_POST['comment'])) {
 	$sql = "SELECT `POST_ID` FROM data.posts WHERE `POST_ID` = ? LIMIT 1";
 	$q = $pdo->prepare($sql);
 	$q->execute(array($post_id));
+
 	if(!empty($q->fetch())) {
 		//comment content must not be empty
 		$commentError = null;
@@ -48,7 +49,7 @@ if (isset($_POST['post_id']) && isset($_POST['comment'])) {
 	}
 
 	else {
-		echo "fail!";
+		header('HTTP/1.1 400 Bad Request');
 	}
 
 
@@ -56,43 +57,8 @@ if (isset($_POST['post_id']) && isset($_POST['comment'])) {
 
 // if no param after comment.php
 else {
-	echo "fail!";
+	header('HTTP/1.1 400 Bad Request');
 }
 
 
  ?>
-
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Write a comment</title>
-	<link   href="css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-	<div class="container">
-		<div class="span10 offset1">
-			<div class="row">
-				<h3>Write a comment</h3>
-			</div>
-
-			<form action="comment.php?post_id=<?php echo $post_id; ?>" class="form-horizontal" method="post">
-				<div class="form-group <?php echo !empty($commentError)?'error':''; ?>">
-					<label for="comment">Comment</label>
-					<input type="text" class="form-control" name="comment" placeholder="Comment" value="<?php echo !empty($comment)?$comment:''; ?>" required>
-					<?php if(!empty($commentError)): ?>
-						<span class="help-inline"><?php echo $commentError ?></span>
-					<?php endif; ?>
-				</div>
-
-				<div class="form-actions">
-					<button type="submit" class="btn btn-success">Comment</button>
-					<a href="index.php" class="btn">Back</a>
-				</div>
-			</form>
-		</div>
-	</div>
-</body>
-</html>
- -->
