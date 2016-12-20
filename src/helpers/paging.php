@@ -153,30 +153,3 @@ class paginate {
 }
 
 ?>
-
-
-
-<!-- DISPLAY COMMENTS -->
-<!-- $sqlcomment = $this->db->prepare('SELECT *
-																 FROM data.comments JOIN data.users
-																 ON data.comments.`USER_ID` = data.users.`USER_ID`
-																 WHERE `POST_ID` = ?');
-$sqlcomment->execute(array($row['POST_ID']));
-
-$rowcomments = $sqlcomment->fetchAll();
-
-echo '<tr>';
-if(empty($rowcomments)) {
-	echo '<td colspan="3"><em>No comments yet.</em></td>';
-}
-else {
-	echo '<td colspan="3">';
-	echo '<h4>Comments</h4>';
-	echo '<ul>';
-	foreach($rowcomments as $rowcomment) {
-		echo '<li>'.$rowcomment['COMMENT_CONTENT'].' | '.$rowcomment['USERNAME'].' | '.$rowcomment['DATE_COMMENTED'].'</li>';
-	}
-	echo '</ul>';
-	echo '</td>';
-}
-echo '</tr>'; -->

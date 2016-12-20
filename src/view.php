@@ -1,6 +1,7 @@
 <?php
 require 'helpers/database.php';
 require 'helpers/authenticate.php';
+require 'helpers/time_elapsed.php';
 
 // must provide param after view.php
 if (!empty($_GET['post_id'])) {
@@ -17,13 +18,19 @@ if (!empty($_GET['post_id'])) {
 	$q->execute(array($post_id));
 	$res = $q->fetch();
 	if(!empty($res)) {
+		$sqlcomment = $pdo->prepare('SELECT *
+																 FROM data.comments JOIN data.users
+																 ON data.comments.`USER_ID` = data.users.`USER_ID`
+																 WHERE `POST_ID` = ?');
+		$sqlcomment->execute(array($post_id));
+		$rowcomments = $sqlcomment->fetchAll();
 
 
-		Database::Disconnect();
 	}
 
 	else {
 		header("Location: index.php");
+		Database::Disconnect();
 	}
 
 
@@ -32,6 +39,7 @@ if (!empty($_GET['post_id'])) {
 // if no param after view.php
 else {
 	header("Location: index.php");
+	Database::Disconnect();
 }
 
 
@@ -43,6 +51,7 @@ else {
 	<meta charset="UTF-8">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/clean-blog.css" rel="stylesheet">
+	<link href="css/view.css" rel="stylesheet">
 	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 	<title><?php echo $res['TITLE']; ?></title>
@@ -77,5 +86,61 @@ else {
 	</article>
 
 	<hr>
+
+	<div class="container">
+	  <div class="row">
+	    <div class="col-md-12">
+	      <div class="panel panel-info">
+	        <div class="panel-heading">
+	          Comments
+	        </div>
+	        <div class="panel-body comments">
+	          <textarea class="form-control" placeholder="Write your comment" rows="5"></textarea>
+	          <br>
+	          <button type="button" class="btn btn-info pull-right">Submit comment</button>
+	          <div class="clearfix"></div>
+	          <hr>
+	          <ul class="media-list">
+	            <?php if(empty($rowcomments)) {
+
+	            	echo '<li class="media">';
+	            	  echo '<div class="comment">';
+	            	    echo '<div class="media-body">';
+	            	      echo '<p>';
+	            	        echo 'No comments yet.';
+	            	      echo '</p>';
+	            	    echo '</div>';
+	            	    echo '<div class="clearfix"></div>';
+	            	  echo '</div>';
+	            	echo '</li>';
+	            }
+
+	            else {
+	            	foreach($rowcomments as $rowcomment) {
+	            		echo '<li class="media">';
+	            		  echo '<div class="comment">';
+	            		    echo '<div class="media-body">';
+	            		      echo '<strong class="text-success">'.$rowcomment['USERNAME'].'&nbsp;</strong>';
+	            		      echo '<span class="text-muted">';
+	            		      echo '<small class="text-muted">'.time_elapsed_string($rowcomment['DATE_COMMENTED']).'</small>';
+	            		      echo '</span>';
+	            		      echo '<p>';
+	            		        echo $rowcomment['COMMENT_CONTENT'];
+	            		      echo '</p>';
+	            		    echo '</div>';
+	            		    echo '<div class="clearfix"></div>';
+	            		  echo '</div>';
+	            		echo '</li>';
+	            	}
+	            }
+	            ?>
+
+
+	          </ul>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </body>
 </html>
