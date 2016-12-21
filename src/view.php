@@ -64,7 +64,13 @@ else {
 	<header class="intro-header" style="background-image: url('img/post-bg.jpg')">
 	    <div class="container">
 	        <div class="row">
-	            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+	        		<div class="col-xs-4 col-sm-2">
+	        			<div class="post-heading" style="padding: 100px 0">
+
+	        				<a href="index.php"><img class="img-responsive" src="img/back.png" alt="back button"></a>
+	        			</div>
+	        		</div>
+	            <div class="col-xs-8 col-sm-8">
 	                <div class="post-heading" style="padding: 100px 0">
 	                		<?php
 	                		echo '<h1>'.$res['TITLE'].'</h1>';

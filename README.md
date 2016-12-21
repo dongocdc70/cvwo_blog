@@ -55,9 +55,11 @@
 							set up comment.php (comment on posts)
 		* 18 Dec: set up pagination for post display
 							reformat index.php to separate into own posts and others' posts.
+		* 20 Dec: beautify post view
+							implement ajax comment
 
 4. To-do list (sorted by priority):
-		* Beautify post display
+		* Registration
 		* Add filter own posts by date
 		* Add filter posts by users
 		* Support search for posts
