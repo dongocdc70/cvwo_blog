@@ -1,9 +1,12 @@
 <?php
-require 'helpers/database.php';
 session_start();
+
+require 'helpers/database.php';
+
 if(isset($_SESSION['username'])) {
 	header('Location: index.php');
 }
+
 else {
 	if(!empty($_POST)) {
 		$usernameError = null;
@@ -37,7 +40,8 @@ else {
 		}
 
 		if($valid) {
-			$sql = "INSERT INTO data.users (USERNAME, PASSWORD, DATE_REGISTERED) values(?, PASSWORD(?), NOW())";
+			$password = password_hash($password, PASSWORD_DEFAULT);
+			$sql = "INSERT INTO data.users (USERNAME, PASSWORD, DATE_REGISTERED) values(?, ?, NOW())";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($username, $password));
 			Database::disconnect();
@@ -65,7 +69,7 @@ else {
 			<form action="register.php" class="form-horizontal" method="post">
 				<div class="form-group <?php echo !empty($usernameError)?'error':''; ?>">
 					<label for="username">Username</label>
-					<input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo !empty($username)?$username:''; ?>">
+					<input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo !empty($username)?$username:''; ?>" required>
 					<?php if(!empty($usernameError)): ?>
 						<span class="help-inline"><?php echo $usernameError ?></span>
 					<?php endif; ?>
@@ -73,7 +77,7 @@ else {
 
 				<div class="form-group <?php echo !empty($passwordError)?'error':''; ?>">
 					<label for="password">Password</label>
-					<input type="password" class="form-control" name="password" placeholder="Password" value="<?php echo !empty($password)?$password:''; ?>">
+					<input type="password" class="form-control" name="password" placeholder="Password" value="<?php echo !empty($password)?$password:''; ?>" required>
 					<?php if(!empty($passwordError)): ?>
 						<span class="help-inline"><?php echo $passwordError ?></span>
 					<?php endif; ?>

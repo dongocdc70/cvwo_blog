@@ -14,11 +14,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-		$sql = "SELECT `USER_ID` FROM data.users WHERE `USERNAME` = ? and `PASSWORD` = PASSWORD(?)";
+		$sql = "SELECT * FROM data.users WHERE `USERNAME` = ?";
 
 		$query = $pdo->prepare($sql);
-		$query->execute(array($username,$password));
-		$userid = ($query->fetch(PDO::FETCH_ASSOC))['USER_ID'];
+		$query->execute(array($username));
+        $res = $query->fetch();
+        $hash = $res['PASSWORD'];
+
+        if(password_verify($password, $hash)) {
+            $userid = $res['USER_ID'];
+        }
 
 
 
@@ -39,9 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
     } else {
+        Database::disconnect();
         header('Location: login.php');
     }
-} else {
+}
+else {
 ?>
 
 <!DOCTYPE html>
