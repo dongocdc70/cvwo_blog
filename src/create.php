@@ -21,7 +21,7 @@ if(!empty($_POST)) {
 	}
 
 	if(empty($title)) {
-		$titleError = 'Please enter blog content';
+		$titleError = 'Please enter blog title';
 		$valid = false;
 	}
 

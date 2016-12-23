@@ -46,7 +46,7 @@ $paginate = new paginate($pdo);
 					$query = 'SELECT *
 										FROM data.posts JOIN data.users
 										ON data.posts.`USER_ID` = data.users.`USER_ID`
-										ORDER BY `POST_ID`';
+										ORDER BY `POST_ID` DESC';
 					$records_per_page = 3;
 					$newquery = $paginate->paging($query,$records_per_page);
 					$paginate->dataview($newquery);
