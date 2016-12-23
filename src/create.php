@@ -1,6 +1,7 @@
 <?php
 require 'helpers/database.php';
 require 'helpers/authenticate.php';
+require 'lib/htmlpurifier/purify_everything.php';
 
 if(!empty($_POST)) {
 	$titleError = null;
@@ -8,6 +9,9 @@ if(!empty($_POST)) {
 
 	$title = $_POST['title'];
 	$content = $_POST['content'];
+
+	// purify title
+	$title = removeHTML($title);
 
 	$valid = true;
 
@@ -24,6 +28,7 @@ if(!empty($_POST)) {
 	if($valid) {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 		$sql = "INSERT INTO data.posts (USER_ID, TITLE, CONTENT, DATE_POSTED) values(?, ?, ?,now())";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($_SESSION['user_id'], $title, $content));

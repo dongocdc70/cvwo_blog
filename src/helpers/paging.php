@@ -2,6 +2,9 @@
 <!-- $paginate = new paginate($DB_con); -->
 
 <?php
+
+require 'lib/htmlpurifier/purify_everything.php';
+
 class paginate {
 	private $db;
 
@@ -23,11 +26,13 @@ class paginate {
 				            echo $row['TITLE'];
 				        echo '</h2>';
 				        echo '<h3 class="post-subtitle">';
-				        		if(strlen($row['CONTENT']) < 300) {
-				        			echo $row['CONTENT'];
+
+				        $content = removeHTML($row['CONTENT']);
+				        		if(strlen($content) < 300) {
+				        			echo $content;
 				        		}
 				        		else {
-				        			echo substr($row['CONTENT'], 0, 300).'...';
+				        			echo substr($content, 0, 300).'...';
 				        		}
 				        echo '</h3>';
 				    echo '</a>';

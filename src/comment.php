@@ -1,6 +1,7 @@
 <?php
 require 'helpers/database.php';
 require 'helpers/authenticate.php';
+require 'lib/htmlpurifier/purify_everything.php';
 
 // must provide param after comment.php
 if (isset($_POST['post_id']) && isset($_POST['comment'])) {
@@ -18,6 +19,7 @@ if (isset($_POST['post_id']) && isset($_POST['comment'])) {
 		//comment content must not be empty
 		$commentError = null;
 		$comment = $_POST['comment'];
+		$comment = removeHTML($comment);
 		$valid = true;
 
 		if(empty($comment)) {
@@ -44,6 +46,10 @@ if (isset($_POST['post_id']) && isset($_POST['comment'])) {
 			    echo '<div class="clearfix"></div>';
 			  echo '</div>';
 			echo '</li>';
+		}
+
+		else {
+			header('HTTP/1.1 400 Bad Request');
 		}
 
 	}
