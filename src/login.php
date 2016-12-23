@@ -14,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $username = $_POST["username"];
         $password = $_POST["password"];
 
+        // username is case-insensitive
+        $username = strtolower($username);
+
 		$sql = "SELECT * FROM data.users WHERE `USERNAME` = ?";
 
 		$query = $pdo->prepare($sql);
@@ -31,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             session_start();
             $_SESSION['username'] = $username;
             $_SESSION['user_id'] = $userid;
+            $_SESSION['RF']['subfolder'] = $username;
             $session_key = session_id();
             $sql = "INSERT INTO data.sessions (`USER_ID`, `SESSION_KEY`, `SESSION_ADDRESS`, `SESSION_USERAGENT`, `SESSION_EXPIRES`) VALUES (?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR) )";
             $query = $pdo->prepare($sql);
