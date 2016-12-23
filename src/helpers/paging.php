@@ -12,9 +12,9 @@ class paginate {
 		$this->db = $DB_con;
 	}
 
-	public function dataview($query) {
+	public function dataview($query, $user=null) {
 		$statement = $this->db->prepare($query);
-		$statement->execute();
+		$statement->execute(array($user));
 
 		if($statement->rowCount() > 0) {
 			while($row=$statement->fetch(PDO::FETCH_ASSOC)) {
@@ -57,9 +57,7 @@ class paginate {
 				    }
 
 
-				    // IMPT *********************
-				    echo '<p class="post-meta">'.$comment_text.' | Posted by <a href="#">'.$row['USERNAME'].'</a> on '.date("F d, Y", strtotime($row['DATE_POSTED'])).'</p>';
-				    // IMPT *********************
+				    echo '<p class="post-meta">'.$comment_text.' | Posted by <a href="index.php?user='.$row['USERNAME'].'">'.$row['USERNAME'].'</a> on '.date("F d, Y", strtotime($row['DATE_POSTED'])).'</p>';
 
 				echo '</div>';
 
@@ -88,13 +86,21 @@ class paginate {
     return $query2;
 	}
 
-	public function paginglink($query,$records_per_page) {
-    $self = $_SERVER['PHP_SELF'];
+	public function paginglink($query,$records_per_page, $user=null) {
 
     $statement = $this->db->prepare($query);
-    $statement->execute(array($_SESSION['user_id']));
+    $statement->execute(array($user));
 
     $total_no_of_records = $statement->rowCount();
+
+    if(isset($_GET['user'])) {
+    	$page_phr = '&page=';
+    	$self = $_SERVER['PHP_SELF'].'?user='.$_GET['user'];
+    }
+    else {
+    	$page_phr = '?page=';
+    	$self = $_SERVER['PHP_SELF'];
+    }
 
     if($total_no_of_records > 0) {
     		$total_no_of_pages = ceil($total_no_of_records/$records_per_page);
@@ -116,7 +122,7 @@ class paginate {
 				  	}
 				  	?>
 
-				      <a class="page-link" href='<?php echo $self."?page=".$previous; ?>' aria-label="Previous">
+				      <a class="page-link" href='<?php echo $self.$page_phr.$previous; ?>' aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
 				        <span class="sr-only">Previous</span>
 				      </a>
@@ -124,10 +130,10 @@ class paginate {
 				    <?php
             for($i=1; $i<=$total_no_of_pages; $i++) {
             	if($i==$current_page) {
-                echo '<li class="page-item active"><a class="page-link" href="'.$self."?page=".$i.'">'.$i.'</a></li>';
+                echo '<li class="page-item active"><a class="page-link" href="'.$self.$page_phr.$i.'">'.$i.'</a></li>';
             	}
     	        else {
-    	          echo '<li class="page-item"><a class="page-link" href="'.$self."?page=".$i.'">'.$i.'</a></li>';
+    	          echo '<li class="page-item"><a class="page-link" href="'.$self.$page_phr.$i.'">'.$i.'</a></li>';
     	        }
        			}
 				    ?>
@@ -142,7 +148,7 @@ class paginate {
 				  		echo '<li class="page-item disabled">';
 				  	}
 				  	?>
-				      <a class="page-link" href='<?php echo $self."?page=".$next; ?>' aria-label="Next">
+				      <a class="page-link" href='<?php echo $self.$page_phr.$next; ?>' aria-label="Next">
 				        <span aria-hidden="true">&raquo;</span>
 				        <span class="sr-only">Next</span>
 				      </a>
