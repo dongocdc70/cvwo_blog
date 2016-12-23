@@ -67,7 +67,7 @@ else {
 	        		<div class="col-xs-4 col-sm-2">
 	        			<div class="post-heading" style="padding: 100px 0">
 
-	        				<a href="index.php"><img class="img-responsive" src="img/back.png" alt="back button"></a>
+	        				<a href="index.php"><img class="img-responsive" src="img/back.png" style="cursor: pointer; cursor: hand;" alt="back button"></a>
 	        			</div>
 	        		</div>
 	            <div class="col-xs-8 col-sm-8">
