@@ -14,12 +14,12 @@
 			- I can delete my own posts.
 			- I can comment on others' posts.
 			- I can see my own posts and others' posts.
-		* To be implemented:
 			- I can register for an account.
-			- I can search for posts.
 			- I can filter posts by users.
-			- I can filter my own posts by date posted.
 			- I can insert multimedia contents into my post.
+		* To be implemented:
+			- I can search for posts.
+			- I can filter my own posts by date posted.
 			- I can have my profile page.
 
 2. How to deploy:
@@ -34,15 +34,9 @@
 				password: root
 		* Run the SQL commands as in file schema.sql to set up the database
 		* Go to http://localhost/cvwo_blog/src to login
-		* These are the test accounts:
+		* Here is a test account. Registering for other accounts is possible:
 				user: dongocduc
 				password: iamadmin
-
-				user: user1
-				password: user1
-
-				user: user2
-				password: user2
 
 3. Main changelogs (according to git commits):
 		* 13 Dec: set up database.php (PDO connection) and index.php (listing all posts)
@@ -57,13 +51,14 @@
 							reformat index.php to separate into own posts and others' posts.
 		* 20 Dec: beautify post view
 							implement ajax comment
+		* 23 Dec: implement registration
+							implement filter post by user
+							implement tinymce for adding multimedia content to blog post
+							implement htmlpurifier to protect against xss
 
 4. To-do list (sorted by priority):
-		* Registration
 		* Add filter own posts by date
-		* Add filter posts by users
 		* Support search for posts
-		* Add multimedia (images, video) support to a blog post
 		* Support user profiling (profile picture, name, age, sex, etc.)
 		* Implement AJAX to user actions (create, delete, comment, filter, search) to improve UX
 
