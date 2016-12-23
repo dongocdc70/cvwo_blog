@@ -11,7 +11,7 @@ $paginate = new paginate($pdo);
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Welcome, <?php echo $_SESSION['username'] ?></title>
+	<title>My Blog</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/clean-blog.css">
 	<script src="js/jquery-3.1.1.min.js"></script>
@@ -32,6 +32,8 @@ $paginate = new paginate($pdo);
 	<div class="container">
 		<div class="row">
 			<h1>
+				Welcome, <?php echo $_SESSION['username']; ?>!
+				<hr>
 				<?php
 				if(isset($_GET['user'])) {
 					echo 'All posts by '.$_GET['user'];

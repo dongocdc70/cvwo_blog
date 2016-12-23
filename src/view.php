@@ -74,7 +74,7 @@ else {
 	                <div class="post-heading" style="padding: 100px 0">
 	                		<?php
 	                		echo '<h1>'.$res['TITLE'].'</h1>';
-	                		echo '<span class="meta">Posted by <a href="#">'.$res['USERNAME'].'</a> on '.date("F d, Y", strtotime($res['DATE_POSTED'])).'</span>';
+	                		echo '<span class="meta">Posted by <a href="index.php?user='.$res['USERNAME'].'">'.$res['USERNAME'].'</a> on '.date("F d, Y", strtotime($res['DATE_POSTED'])).'</span>';
 	                		?>
 	                </div>
 	            </div>

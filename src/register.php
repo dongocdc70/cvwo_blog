@@ -27,6 +27,12 @@ else {
 			$valid = false;
 		}
 		// if username is given
+		// if username contains weird characters
+		else if(!preg_match('/^[a-zA-Z0-9-_]+$/', $username)) {
+			$usernameError = 'Username can contain only alphanumeric characters, dashes or underscores';
+			$valid = false;
+		}
+		// check if username exists already
 		else {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
