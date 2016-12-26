@@ -16,6 +16,7 @@ $paginate = new paginate($pdo);
 	<link rel="stylesheet" href="css/clean-blog.css">
 	<link rel="stylesheet" href="css/search.css">
 	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/search.js"></script>
 	<script language="javascript" type="text/javascript">
 	$(document).ready(function(){
 	    $("a.delete").click(function(e){
@@ -25,6 +26,7 @@ $paginate = new paginate($pdo);
 	        }
 	        return true;
 	    });
+
 	});
 	</script>
 
@@ -57,7 +59,7 @@ $paginate = new paginate($pdo);
 			</div>
 			<div id="custom-search-input" class="col-md-9">
           <div class="input-group" style="margin-top: 3px;">
-              <input type="text" class="search-query form-control input-lg" placeholder="Search" />
+              <input type="text" id="search-box" class="search-query form-control input-lg" placeholder="Search" />
               <span class="input-group-btn">
                   <button class="btn btn-danger" type="button">
                       <span class=" glyphicon glyphicon-search"></span>
@@ -67,7 +69,11 @@ $paginate = new paginate($pdo);
       </div>
 		</div>
 
-		<div class="row">
+		<div class="row" id="result">
+			<img class="center-block" id="loading-gif" src="img/loader.gif" alt="loading" style="padding-top: 20px; display: none">
+		</div>
+
+		<div class="row" id="preload">
 			<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
 					<?php
 					$records_per_page = 3;
@@ -94,21 +100,17 @@ $paginate = new paginate($pdo);
 
 					?>
       </div>
+  		<?php
+  		if(isset($_GET['user'])) {
+      	$paginate->paginglink($query,$records_per_page,$_GET['user']);
+      }
+
+      else {
+      	$paginate->paginglink($query,$records_per_page);
+      }
+  		Database::disconnect();
+  		?>
 		</div>
-		<?php
-		if(isset($_GET['user'])) {
-    	$paginate->paginglink($query,$records_per_page,$_GET['user']);
-    }
-
-    else {
-    	$paginate->paginglink($query,$records_per_page);
-    }
-		Database::disconnect();
-		?>
-
 	</div>
 </body>
 </html>
-
-
-
