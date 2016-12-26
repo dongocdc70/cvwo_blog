@@ -14,6 +14,7 @@ $paginate = new paginate($pdo);
 	<title>My Blog</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/clean-blog.css">
+	<link rel="stylesheet" href="css/search.css">
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script language="javascript" type="text/javascript">
 	$(document).ready(function(){
@@ -44,16 +45,26 @@ $paginate = new paginate($pdo);
 				?>
 			</h1>
 		</div>
-		<div class="row">
-			<p>
-				<?php
-				if(isset($_GET['user'])) {
-					echo '<a href="index.php" class="btn btn-warning">Back to homepage</a>';
-				}
-				?>
-				<a href="create.php" class="btn btn-success">Create</a>
-				<a href="logout.php" class="btn btn-danger">Log out</a>
-			</p>
+		<div class="row" style="padding-top: 10px;">
+			<?php
+			if(isset($_GET['user'])) {
+				echo '<a href="index.php" class="btn btn-warning">Back to homepage</a>';
+			}
+			?>
+			<div class="col-md-3" style="padding: 0">
+				<a href="create.php" class="btn btn-success" style="padding: 15px 20px">Create</a>
+				<a href="logout.php" class="btn btn-danger" style="padding: 15px 20px">Logout</a>
+			</div>
+			<div id="custom-search-input" class="col-md-9">
+          <div class="input-group" style="margin-top: 3px;">
+              <input type="text" class="search-query form-control input-lg" placeholder="Search" />
+              <span class="input-group-btn">
+                  <button class="btn btn-danger" type="button">
+                      <span class=" glyphicon glyphicon-search"></span>
+                  </button>
+              </span>
+          </div>
+      </div>
 		</div>
 
 		<div class="row">
