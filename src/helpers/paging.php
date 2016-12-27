@@ -12,9 +12,9 @@ class paginate {
 		$this->db = $DB_con;
 	}
 
-	public function dataview($query, $user=null) {
+	public function dataview($query, $param=null) {
 		$statement = $this->db->prepare($query);
-		$statement->execute(array($user));
+		$statement->execute(array($param));
 
 		if($statement->rowCount() > 0) {
 			while($row=$statement->fetch(PDO::FETCH_ASSOC)) {
@@ -86,21 +86,32 @@ class paginate {
     return $query2;
 	}
 
-	public function paginglink($query,$records_per_page, $user=null) {
+	public function paginglink($query,$records_per_page, $param=null, $file=null, $param_file=null) {
+	// $param     : parameter to be put in sql execute
+	// $file      : e.g. 'search.php'
+	// $param_file: e.g. 'user=dongocduc'
 
     $statement = $this->db->prepare($query);
-    $statement->execute(array($user));
+    $statement->execute(array($param));
 
     $total_no_of_records = $statement->rowCount();
 
-    if(isset($_GET['user'])) {
+    if(isset($file)) {
+    	$first_part = $file;
+    }
+    else {
+    	$first_part = removeHTML($_SERVER['PHP_SELF']);
+    }
+
+    if(isset($param_file)) {
     	$page_phr = '&page=';
-    	$self = $_SERVER['PHP_SELF'].'?user='.$_GET['user'];
+    	$self = $first_part.'?'.$param_file;
     }
     else {
     	$page_phr = '?page=';
-    	$self = $_SERVER['PHP_SELF'];
+    	$self = $first_part;
     }
+
 
     if($total_no_of_records > 0) {
     		$total_no_of_pages = ceil($total_no_of_records/$records_per_page);

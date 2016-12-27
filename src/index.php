@@ -1,7 +1,7 @@
 <?php
 require 'helpers/authenticate.php';
 require_once 'helpers/database.php';
-include_once 'helpers/paging.php';
+require_once 'helpers/paging.php';
 
 $pdo = Database::connect();
 $paginate = new paginate($pdo);
@@ -37,44 +37,49 @@ $paginate = new paginate($pdo);
 			<h1>
 				Welcome, <?php echo $_SESSION['username']; ?>!
 				<hr>
+			</h1>
+			<h1 id='page-title'>
 				<?php
 				if(isset($_GET['user'])) {
 					echo 'All posts by '.$_GET['user'];
+					echo '<a href="index.php" style="float: right;" class="btn btn-warning">Back to homepage</a>';
 				}
 				else {
 					echo 'All posts';
 				}
 				?>
 			</h1>
+
+
 		</div>
 		<div class="row" style="padding-top: 10px;">
-			<?php
-			if(isset($_GET['user'])) {
-				echo '<a href="index.php" class="btn btn-warning">Back to homepage</a>';
-			}
-			?>
+
 			<div class="col-md-3" style="padding: 0">
 				<a href="create.php" class="btn btn-success" style="padding: 15px 20px">Create</a>
 				<a href="logout.php" class="btn btn-danger" style="padding: 15px 20px">Logout</a>
 			</div>
-			<div id="custom-search-input" class="col-md-9">
-          <div class="input-group" style="margin-top: 3px;">
-              <input type="text" id="search-box" class="search-query form-control input-lg" placeholder="Search" />
-              <span class="input-group-btn">
-                  <button class="btn btn-danger" type="button">
-                      <span class=" glyphicon glyphicon-search"></span>
-                  </button>
-              </span>
-          </div>
-      </div>
+			<?php if(!isset($_GET['user'])) { ?>
+				<div id="custom-search-input" class="col-md-9">
+	          <div class="input-group" style="margin-top: 3px;">
+	              <input type="text" id="search-box" class="search-query form-control input-lg" placeholder="Search" />
+	              <span class="input-group-btn">
+	                  <button class="btn btn-danger" type="button">
+	                      <span class=" glyphicon glyphicon-search"></span>
+	                  </button>
+	              </span>
+	          </div>
+	      </div>
+      <?php } ?>
 		</div>
 
-		<div class="row" id="result">
-			<img class="center-block" id="loading-gif" src="img/loader.gif" alt="loading" style="padding-top: 20px; display: none">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1" id="result">
+				<img class="center-block" id="loading-gif" src="img/loader.gif" alt="loading" style="padding-top: 20px; display: none">
+			</div>
 		</div>
 
 		<div class="row" id="preload">
-			<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+			<div class="col-md-10 col-md-offset-1">
 					<?php
 					$records_per_page = 3;
 					if(isset($_GET['user'])) {
@@ -95,21 +100,20 @@ $paginate = new paginate($pdo);
 						$paginate->dataview($newquery);
 					}
 
+					// public function paginglink($query,$records_per_page, $param=null, $file=null, $param_file=null)
+					// *** $param     : parameter to be put in sql execute
+					// *** $file      : e.g. 'search.php'
+					// *** $param_file: e.g. 'user=dongocduc'
+		  		if(isset($_GET['user'])) {
+		      	$paginate->paginglink($query,$records_per_page,$_GET['user'],null,'user='.$_GET['user']);
+		      }
 
-
-
+		      else {
+		      	$paginate->paginglink($query,$records_per_page);
+		      }
+		  		Database::disconnect();
 					?>
       </div>
-  		<?php
-  		if(isset($_GET['user'])) {
-      	$paginate->paginglink($query,$records_per_page,$_GET['user']);
-      }
-
-      else {
-      	$paginate->paginglink($query,$records_per_page);
-      }
-  		Database::disconnect();
-  		?>
 		</div>
 	</div>
 </body>
