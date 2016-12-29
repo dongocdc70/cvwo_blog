@@ -5,6 +5,7 @@ require_once 'helpers/paging.php';
 
 $pdo = Database::connect();
 $paginate = new paginate($pdo);
+$dbName = Database::$dbName;
 ?>
 
 <!DOCTYPE html>
@@ -83,19 +84,19 @@ $paginate = new paginate($pdo);
 					<?php
 					$records_per_page = 3;
 					if(isset($_GET['user'])) {
-						$query = 'SELECT *
-											FROM data.posts JOIN data.users
-											ON data.posts.`USER_ID` = data.users.`USER_ID`
-											WHERE data.users.`USERNAME` = ?
-											ORDER BY `POST_ID` DESC';
+						$query = "SELECT *
+											FROM $dbName.posts JOIN $dbName.users
+											ON $dbName.posts.`USER_ID` = $dbName.users.`USER_ID`
+											WHERE $dbName.users.`USERNAME` = ?
+											ORDER BY `POST_ID` DESC";
 						$newquery = $paginate->paging($query,$records_per_page,$_GET['user']);
 						$paginate->dataview($newquery,$_GET['user']);
 					}
 					else {
-						$query = 'SELECT *
-											FROM data.posts JOIN data.users
-											ON data.posts.`USER_ID` = data.users.`USER_ID`
-											ORDER BY `POST_ID` DESC';
+						$query = "SELECT *
+											FROM $dbName.posts JOIN $dbName.users
+											ON $dbName.posts.`USER_ID` = $dbName.users.`USER_ID`
+											ORDER BY `POST_ID` DESC";
 						$newquery = $paginate->paging($query,$records_per_page);
 						$paginate->dataview($newquery);
 					}

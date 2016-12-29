@@ -27,9 +27,10 @@ if(!empty($_POST)) {
 
 	if($valid) {
 		$pdo = Database::connect();
+		$dbName = Database::$dbName;
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-		$sql = "INSERT INTO data.posts (USER_ID, TITLE, CONTENT, DATE_POSTED) values(?, ?, ?,now())";
+		$sql = "INSERT INTO $dbName.posts (USER_ID, TITLE, CONTENT, DATE_POSTED) values(?, ?, ?,now())";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($_SESSION['user_id'], $title, $content));
 		Database::disconnect();
@@ -61,7 +62,7 @@ if(!empty($_POST)) {
 
 	     relative_urls: false,
 
-	     external_filemanager_path:"/cvwo_blog/src/lib/filemanager/",
+	     external_filemanager_path:"lib/filemanager/",
 	     filemanager_title:"Responsive Filemanager" ,
 	     external_plugins: { "filemanager" : "plugins/responsivefilemanager/plugin.min.js"}
 	   });

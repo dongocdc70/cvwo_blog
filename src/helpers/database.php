@@ -2,7 +2,7 @@
 
 <?php
 class Database {
-	private static $dbName = 'data';
+	static $dbName = 'data';
 	private static $dbHost = 'localhost';
 	private static $dbUsername = 'root';
 	private static $dbUserPassword = 'root';

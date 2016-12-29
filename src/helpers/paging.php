@@ -4,6 +4,7 @@
 <?php
 
 require 'lib/htmlpurifier/purify_everything.php';
+require_once 'database.php';
 
 class paginate {
 	private $db;
@@ -15,6 +16,7 @@ class paginate {
 	public function dataview($query, $param=null) {
 		$statement = $this->db->prepare($query);
 		$statement->execute(array($param));
+		$dbName = Database::$dbName;
 
 		if($statement->rowCount() > 0) {
 			while($row=$statement->fetch(PDO::FETCH_ASSOC)) {
@@ -37,10 +39,10 @@ class paginate {
 				        echo '</h3>';
 				    echo '</a>';
 
-				    $sqlcomment = $this->db->prepare('SELECT COUNT(*)
-				    																 FROM data.comments JOIN data.users
-				    																 ON data.comments.`USER_ID` = data.users.`USER_ID`
-				    																 WHERE `POST_ID` = ?');
+				    $sqlcomment = $this->db->prepare("SELECT COUNT(*)
+				    																 FROM $dbName.comments JOIN $dbName.users
+				    																 ON $dbName.comments.`USER_ID` = $dbName.users.`USER_ID`
+				    																 WHERE `POST_ID` = ?");
 				    $sqlcomment->execute(array($row['POST_ID']));
 						$comment = $sqlcomment->fetch()[0];
 

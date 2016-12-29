@@ -9,9 +9,10 @@ if (isset($_POST['post_id']) && isset($_POST['comment'])) {
 
 	$pdo = Database::connect();
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$dbName = Database::$dbName;
 
 	//check if post_id exists
-	$sql = "SELECT `POST_ID` FROM data.posts WHERE `POST_ID` = ? LIMIT 1";
+	$sql = "SELECT `POST_ID` FROM $dbName.posts WHERE `POST_ID` = ? LIMIT 1";
 	$q = $pdo->prepare($sql);
 	$q->execute(array($post_id));
 
@@ -28,7 +29,7 @@ if (isset($_POST['post_id']) && isset($_POST['comment'])) {
 		}
 
 		if($valid) {
-			$sql = "INSERT INTO data.comments (`USER_ID`, `POST_ID`, `COMMENT_CONTENT`, `DATE_COMMENTED`) VALUES (?, ?, ?, NOW())";
+			$sql = "INSERT INTO $dbName.comments (`USER_ID`, `POST_ID`, `COMMENT_CONTENT`, `DATE_COMMENTED`) VALUES (?, ?, ?, NOW())";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($_SESSION['user_id'], $post_id, $comment));
 			Database::disconnect();

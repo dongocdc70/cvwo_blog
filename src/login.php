@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if(!empty($_POST["username"]) && !empty($_POST["password"])) {
         $pdo = Database::connect();
+        $dbName = Database::$dbName;
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $username = $_POST["username"];
@@ -17,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // username is case-insensitive
         $username = strtolower($username);
 
-		$sql = "SELECT * FROM data.users WHERE `USERNAME` = ?";
+		$sql = "SELECT * FROM $dbName.`users` WHERE `USERNAME` = ?";
 
 		$query = $pdo->prepare($sql);
 		$query->execute(array($username));
@@ -36,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $userid;
             $_SESSION['RF']['subfolder'] = $username;
             $session_key = session_id();
-            $sql = "INSERT INTO data.sessions (`USER_ID`, `SESSION_KEY`, `SESSION_ADDRESS`, `SESSION_USERAGENT`, `SESSION_EXPIRES`) VALUES (?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR) )";
+            $sql = "INSERT INTO $dbName.`sessions` (`USER_ID`, `SESSION_KEY`, `SESSION_ADDRESS`, `SESSION_USERAGENT`, `SESSION_EXPIRES`) VALUES (?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL 1 HOUR) )";
             $query = $pdo->prepare($sql);
             $query->execute(array($userid, $session_key, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']));
             Database::disconnect();

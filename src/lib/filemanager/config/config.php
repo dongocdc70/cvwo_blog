@@ -2,7 +2,7 @@
 if (session_id() == '') session_start();
 
 mb_internal_encoding('UTF-8');
-date_default_timezone_set('Europe/Rome');
+date_default_timezone_set('GMT');
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ $config = array(
 	| with start and final /
 	|
 	*/
-	'upload_dir' => '/cvwo_blog/src/uploads/source/',
+	'upload_dir' => '/uploads/source/',
 	/*
 	|--------------------------------------------------------------------------
 	| relative path from filemanager folder to upload folder

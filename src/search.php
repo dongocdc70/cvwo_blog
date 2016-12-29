@@ -17,6 +17,8 @@ function display_row() {
 	else {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$dbName = Database::$dbName;
+
 		$paginate = new paginate($pdo);
 		$records_per_page = 3;
 
@@ -26,10 +28,10 @@ function display_row() {
 
 		$q = trim($old_q).'*';
 
-		$query = 'SELECT *
-							FROM data.posts JOIN data.users
-							ON data.posts.`USER_ID` = data.users.`USER_ID`
-							WHERE MATCH(`TITLE`, `CONTENT`) AGAINST (? IN BOOLEAN MODE)';
+		$query = "SELECT *
+							FROM $dbName.posts JOIN $dbName.users
+							ON $dbName.posts.`USER_ID` = $dbName.users.`USER_ID`
+							WHERE MATCH(`TITLE`, `CONTENT`) AGAINST (? IN BOOLEAN MODE)";
 
 		$newquery = $paginate->paging($query,$records_per_page,$q);
 		$paginate->dataview($newquery,$q);

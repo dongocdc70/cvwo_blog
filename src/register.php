@@ -35,12 +35,14 @@ else {
 		// check if username exists already
 		else {
 			$pdo = Database::connect();
+			$dbName = Database::$dbName;
+
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 			//username is case-insensitive
 			$username = strtolower($username);
 
-			$sql = 'SELECT * FROM data.users WHERE `USERNAME` = ?';
+			$sql = "SELECT * FROM $dbName.users WHERE `USERNAME` = ?";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($username));
 			// check if username exists already
@@ -53,7 +55,7 @@ else {
 		if($valid) {
 			mkdir('uploads/source/'.$username);
 			$password = password_hash($password, PASSWORD_DEFAULT);
-			$sql = "INSERT INTO data.users (USERNAME, PASSWORD, DATE_REGISTERED) values(?, ?, NOW())";
+			$sql = "INSERT INTO $dbName.users (USERNAME, PASSWORD, DATE_REGISTERED) values(?, ?, NOW())";
 			$q = $pdo->prepare($sql);
 			$q->execute(array($username, $password));
 			Database::disconnect();

@@ -7,22 +7,23 @@ require 'helpers/time_elapsed.php';
 if (!empty($_GET['post_id'])) {
 	$post_id = $_REQUEST['post_id'];
 	$pdo = Database::connect();
+	$dbName = Database::$dbName;
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	//check if post_id exists
 	$sql = "SELECT *
-					FROM data.posts JOIN data.users
-					ON data.posts.`USER_ID` = data.users.`USER_ID`
+					FROM $dbName.posts JOIN $dbName.users
+					ON $dbName.posts.`USER_ID` = $dbName.users.`USER_ID`
 					WHERE `POST_ID` = ? LIMIT 1";
 	$q = $pdo->prepare($sql);
 	$q->execute(array($post_id));
 	$res = $q->fetch();
 	if(!empty($res)) {
-		$sqlcomment = $pdo->prepare('SELECT *
-																 FROM data.comments JOIN data.users
-																 ON data.comments.`USER_ID` = data.users.`USER_ID`
+		$sqlcomment = $pdo->prepare("SELECT *
+																 FROM $dbName.comments JOIN $dbName.users
+																 ON $dbName.comments.`USER_ID` = $dbName.users.`USER_ID`
 																 WHERE `POST_ID` = ?
-																 ORDER BY data.comments.`COMMENT_ID` DESC');
+																 ORDER BY $dbName.comments.`COMMENT_ID` DESC");
 		$sqlcomment->execute(array($post_id));
 		$rowcomments = $sqlcomment->fetchAll();
 

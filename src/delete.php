@@ -7,12 +7,13 @@
     if (!empty($_GET['post_id'])) {
         $post_id = $_REQUEST['post_id'];
         $pdo = Database::connect();
+        $dbName = Database::$dbName;
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // find post owner
         $sql = "SELECT `USERNAME`
-                FROM data.posts JOIN data.users
-                ON data.posts.`USER_ID` = data.users.`USER_ID`
+                FROM $dbName.posts JOIN $dbName.users
+                ON $dbName.posts.`USER_ID` = $dbName.users.`USER_ID`
                 WHERE POST_ID = ?";
         $q = $pdo->prepare($sql);
         $q->execute(array($post_id));
@@ -20,7 +21,7 @@
 
         // delete data
         if($username==$_SESSION['username']) {
-            $sql = "DELETE FROM data.posts  WHERE post_id = ?";
+            $sql = "DELETE FROM $dbName.posts  WHERE post_id = ?";
             $q = $pdo->prepare($sql);
             $q->execute(array($post_id));
             Database::disconnect();
