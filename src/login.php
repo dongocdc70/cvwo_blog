@@ -94,6 +94,18 @@ else {
         			</form>
         		</div>
         	</div>
+        	<div class="row">
+                <p class="text-center">
+                    Made by Do Ngoc Duc - A0160589U
+                    <br/>
+                    <br/>
+                    Use either of these accounts to test (or you can create your own account):
+                    <br/>
+                    Username: dongocduc     -----     Password: iamadmin
+                    <br/>
+                    Username: user1         -----     Password: user1
+                </p>
+          </div>
         </div>
     </section>
     <!-- [/content] -->
