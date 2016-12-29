@@ -18,7 +18,6 @@
 			- I can filter posts by users.
 			- I can insert multimedia contents into my post.
 		* To be implemented:
-			- I can search for posts.
 			- I can filter my own posts by date posted.
 			- I can have my profile page.
 
@@ -31,7 +30,8 @@
 				(so that admin can login to sql server using web browser)
 		* Go to http://localhost/phpmyadmin and using the following login:
 				user: root
-				password: root
+				no password
+		* Change the password for root@localhost to 'root'
 		* Run the SQL commands as in file schema.sql to set up the database
 		* Go to http://localhost/cvwo_blog/src to login
 		* Here is a test account. Registering for other accounts is possible:
@@ -55,10 +55,12 @@
 							implement filter post by user
 							implement tinymce for adding multimedia content to blog post
 							implement htmlpurifier to protect against xss
+		* 24 Dec: implement strong password hashing
+							implement responsive filemanager for uploading attachments to posts
+		* 27 Dec: implement AJAX php live search
 
 4. To-do list (sorted by priority):
 		* Add filter own posts by date
-		* Support search for posts
 		* Support user profiling (profile picture, name, age, sex, etc.)
 		* Implement AJAX to user actions (create, delete, comment, filter, search) to improve UX
 
