@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2016 at 03:06 PM
+-- Generation Time: Dec 29, 2016 at 05:16 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `data`
 --
-CREATE DATABASE IF NOT EXISTS `data` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `data`;
 
 -- --------------------------------------------------------
 
@@ -36,23 +34,6 @@ CREATE TABLE `comments` (
   `DATE_COMMENTED` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `comments`
---
-
-INSERT INTO `comments` (`COMMENT_ID`, `USER_ID`, `POST_ID`, `COMMENT_CONTENT`, `DATE_COMMENTED`) VALUES
-(1, 3, 13, 'great', '2016-12-15 06:58:41'),
-(2, 3, 11, '12312', '2016-12-15 07:49:01'),
-(3, 3, 21, 'vccvsvv', '2016-12-15 07:49:06'),
-(4, 2, 11, 'dasfadsf', '2016-12-15 07:49:44'),
-(5, 2, 23, 'adfasdfdas', '2016-12-15 07:49:49'),
-(6, 2, 25, 'dfsadsaf', '2016-12-15 07:49:53'),
-(7, 2, 11, '21312', '2016-12-15 07:52:48'),
-(8, 2, 25, '4444', '2016-12-15 07:54:13'),
-(9, 2, 24, 'dsfdfsdsa', '2016-12-15 08:10:26'),
-(10, 3, 22, 'vcsvddsvvdsas', '2016-12-15 08:10:58'),
-(11, 3, 22, 'fadfsfasdfas', '2016-12-15 08:50:17');
-
 -- --------------------------------------------------------
 
 --
@@ -62,6 +43,7 @@ INSERT INTO `comments` (`COMMENT_ID`, `USER_ID`, `POST_ID`, `COMMENT_CONTENT`, `
 CREATE TABLE `posts` (
   `POST_ID` bigint(20) UNSIGNED NOT NULL,
   `USER_ID` bigint(20) UNSIGNED NOT NULL,
+  `TITLE` varchar(255) NOT NULL,
   `CONTENT` longtext NOT NULL,
   `DATE_POSTED` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -70,14 +52,20 @@ CREATE TABLE `posts` (
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`POST_ID`, `USER_ID`, `CONTENT`, `DATE_POSTED`) VALUES
-(11, 4, '2', '2016-12-15 02:06:35'),
-(19, 2, '142334132', '2016-12-15 14:32:56'),
-(21, 2, '1212231213231', '2016-12-15 14:33:04'),
-(22, 2, '3243443', '2016-12-15 14:33:06'),
-(23, 3, '142321342314234132413214', '2016-12-15 14:34:49'),
-(24, 3, '312432142134213413241324', '2016-12-15 14:34:52'),
-(25, 3, '1342324fddfasdfqwe', '2016-12-15 14:34:55');
+INSERT INTO `posts` (`POST_ID`, `USER_ID`, `TITLE`, `CONTENT`, `DATE_POSTED`) VALUES
+(38, 8, 'testing image', '<p><img src="http://www.myhappybirthdaywishes.com/wp-content/uploads/2016/03/happy-birthday-dog-funny-memes.jpg" alt="" width="600" height="386" /></p>', '2016-12-23 23:37:07'),
+(39, 8, 'testing video', '<p><iframe src="//www.youtube.com/embed/3Uo0JAUWijM" width="560" height="314" allowfullscreen="allowfullscreen"></iframe></p>', '2016-12-23 23:37:51'),
+(40, 8, 'testing responsive filemanager', '<p><a title="test_dongocduc" href="/cvwo_blog/src/uploads/source/dongocduc/test_dongocduc.txt">test_dongocduc</a></p>\r\n<p><img src="/cvwo_blog/src/uploads/source/dongocduc/EPS_complicated-answers.jpg?1482516035084" alt="EPS_complicated-answers" /></p>\r\n<p><a title="MA1102R-Assignment3" href="/cvwo_blog/src/uploads/source/dongocduc/MA1102R-Assignment3.pdf">MA1102R-Assignment3</a></p>', '2016-12-24 01:01:21'),
+(41, 12, 'spam1', '<p><strong>spam1</strong></p>', '2016-12-24 01:56:51'),
+(42, 12, 'spam2', '<p>spam2</p>\r\n<p>&nbsp;</p>', '2016-12-24 01:57:04'),
+(43, 12, 'spam3', '<p><span style="text-decoration: underline;">spam3</span></p>', '2016-12-24 01:58:16'),
+(44, 12, 'spam4', '<p>spam4</p>', '2016-12-24 01:58:29'),
+(45, 12, 'long post', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis venenatis varius imperdiet. Aliquam ullamcorper justo tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue felis odio, id congue metus finibus et. Curabitur non turpis neque. Nullam imperdiet ornare ullamcorper. Etiam convallis finibus erat vel molestie. Cras lacinia aliquet tellus, sed egestas neque pellentesque vel. Vivamus velit ante, consequat eu quam in, gravida sodales nisi. Etiam scelerisque condimentum magna, vel ullamcorper mi convallis non. Mauris ipsum orci, cursus non laoreet sed, porttitor et diam. Ut et egestas odio.</p>\r\n<p>Ut tincidunt placerat felis nec lacinia. Vivamus malesuada ornare est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam condimentum nibh quis magna pretium, ut luctus orci rhoncus. Curabitur nec eros vitae arcu imperdiet porta vel a risus. In at turpis nulla. Etiam tincidunt venenatis tellus, ac ullamcorper felis rhoncus eu.</p>\r\n<p>Quisque non massa eu augue varius fermentum ut ut est. Sed tincidunt pulvinar posuere. Nam finibus interdum eros, sit amet pharetra urna interdum sed. Pellentesque tristique, lectus ut consequat egestas, urna tellus mollis lorem, nec tristique urna dui sit amet nulla. Curabitur eu aliquet enim. Duis cursus posuere nisl in ultricies. Nam consequat ornare accumsan.</p>\r\n<p>Duis sed turpis eget ex maximus facilisis sit amet vitae nulla. Maecenas accumsan vitae risus eget maximus. Pellentesque vitae mi sit amet lorem tincidunt congue vitae eu erat. Maecenas nec justo ex. Donec malesuada vitae urna tristique imperdiet. Donec sit amet purus congue, laoreet turpis eget, gravida justo. Integer fermentum a orci nec porttitor. Duis at magna id diam eleifend venenatis vitae sit amet neque. Pellentesque maximus dui enim, sit amet lobortis lacus porta nec. Cras venenatis volutpat enim sed feugiat. Aenean faucibus mattis ultricies. Nulla facilisi. Phasellus vulputate quam sit amet urna cursus, malesuada dapibus purus congue. Proin convallis augue non ultrices cursus.</p>\r\n<p>Donec neque risus, bibendum ut diam sit amet, gravida vehicula mauris. Quisque viverra lectus quis nisl gravida dictum. Morbi molestie dictum sem vel fermentum. Sed placerat, augue eu porttitor iaculis, nulla urna dapibus nisi, a dictum leo leo et nisl. Mauris scelerisque tempor orci a euismod. Phasellus ullamcorper, orci vitae ultrices sollicitudin, est justo fermentum augue, eu cursus arcu neque eu elit. Fusce in erat orci. Pellentesque facilisis ante in placerat volutpat. Maecenas est diam, finibus a lacus id, lobortis placerat ante. Quisque ac efficitur sem. Nulla auctor augue vitae leo sollicitudin, eu porta mauris pretium. Morbi porttitor nisi pretium quam aliquet, nec gravida arcu iaculis. Pellentesque lacinia porttitor lobortis.</p>', '2016-12-24 01:59:41'),
+(46, 8, 'dummy 1', '<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>', '2016-12-26 23:19:15'),
+(47, 8, 'dummy 2', '<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>\r\n<p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>', '2016-12-26 23:19:34'),
+(48, 8, 'dummy 3', '<p>And if she hasn&rsquo;t been rewritten, then they are still using her. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One</p>', '2016-12-26 23:19:46'),
+(49, 8, 'dummy 4', '<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>\r\n<p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>\r\n<p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.</p>\r\n<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way. On her way she met a copy.</p>\r\n<p>The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn&rsquo;t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their projects again and again.</p>', '2016-12-26 23:20:07'),
+(50, 8, 'dummy 5', '<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>\r\n<p>It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.</p>\r\n<p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn&rsquo;t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.</p>\r\n<p>When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way. On her way she met a copy.</p>\r\n<p>The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn&rsquo;t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their projects again and again.</p>\r\n<p>And if she hasn&rsquo;t been rewritten, then they are still using her. Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One</p>', '2016-12-26 23:20:33');
 
 -- --------------------------------------------------------
 
@@ -99,38 +87,26 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`SESSION_ID`, `USER_ID`, `SESSION_KEY`, `SESSION_ADDRESS`, `SESSION_USERAGENT`, `SESSION_EXPIRES`) VALUES
-(8, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 18:15:59'),
-(9, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 18:18:53'),
-(10, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 18:22:45'),
-(11, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 18:25:03'),
-(12, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 18:25:31'),
-(13, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 18:26:03'),
-(14, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 18:27:34'),
-(15, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 20:07:44'),
-(16, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 19:30:11'),
-(17, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 19:31:42'),
-(18, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 19:32:04'),
-(19, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 19:39:33'),
-(20, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 19:59:44'),
-(21, 4, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 20:06:30'),
-(22, 3, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-14 20:07:18'),
-(23, 3, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 09:50:41'),
-(24, 4, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 06:56:52'),
-(25, 3, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 07:05:32'),
-(26, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 07:08:03'),
-(27, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 07:16:46'),
-(28, 3, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 07:25:09'),
-(29, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 08:19:29'),
-(30, 3, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 08:27:42'),
-(31, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 08:32:53'),
-(32, 4, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 08:34:17'),
-(33, 3, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 08:34:44'),
-(34, 3, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 08:38:55'),
-(35, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 08:49:37'),
-(36, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 08:53:43'),
-(37, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 09:06:48'),
-(38, 3, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 09:10:48'),
-(39, 2, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-15 14:55:55');
+(51, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 19:59:57'),
+(52, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 17:18:32'),
+(53, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 17:20:45'),
+(54, 9, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 17:24:44'),
+(55, 9, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 17:25:20'),
+(56, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 17:25:34'),
+(57, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 17:36:23'),
+(58, 9, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 18:42:52'),
+(59, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 18:56:09'),
+(60, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 18:59:13'),
+(61, 9, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 19:04:38'),
+(62, 12, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 19:39:32'),
+(63, 14, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 19:50:31'),
+(64, 12, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 19:55:16'),
+(65, 12, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-23 19:59:12'),
+(66, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-26 09:32:11'),
+(67, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-26 08:47:20'),
+(68, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-26 12:01:36'),
+(69, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-26 19:54:15'),
+(70, 8, 'vok3h035dqjq1dof65gshh9vh5', '::1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/58.3.138 Chrome/52.3.2743.138 Safari/537.36', '2016-12-27 16:49:44');
 
 -- --------------------------------------------------------
 
@@ -141,7 +117,7 @@ INSERT INTO `sessions` (`SESSION_ID`, `USER_ID`, `SESSION_KEY`, `SESSION_ADDRESS
 CREATE TABLE `users` (
   `USER_ID` bigint(20) UNSIGNED NOT NULL,
   `USERNAME` varchar(100) NOT NULL,
-  `PASSWORD` varchar(64) NOT NULL,
+  `PASSWORD` varchar(255) NOT NULL,
   `DATE_REGISTERED` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -150,9 +126,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`USER_ID`, `USERNAME`, `PASSWORD`, `DATE_REGISTERED`) VALUES
-(2, 'dongocduc', '*5656DAD89457E27ECE354215F7E923EF6347409B', '2016-12-14 22:20:05'),
-(3, 'user1', '*34D3B87A652E7F0D1D371C3DBF28E291705468C4', '2016-12-15 02:01:18'),
-(4, 'user2', '*12A20BE57AF67CBF230D55FD33FBAF5230CFDBC4', '2016-12-15 02:02:02');
+(8, 'dongocduc', '$2y$10$eiTqiC28aA0YAdsQrxS5U.6ktkMx5Ke/dkL2MCPVP.fhlyRGqWnGS', '2016-12-23 22:55:26'),
+(9, 'user1', '$2y$10$bdpOEQFOYxrPD4avx7ml1eEuA5LzJFUyMCWvDKHSYi1vZGiIQdEVq', '2016-12-23 23:24:38'),
+(12, 'user2', '$2y$10$vOcPUgDfWwfJiXqIGyl72.Gi397VeKY1frQwAjgsreuimj5hl7XN.', '2016-12-24 01:39:24');
 
 --
 -- Indexes for dumped tables
@@ -169,6 +145,7 @@ ALTER TABLE `comments`
 --
 ALTER TABLE `posts`
   ADD PRIMARY KEY (`POST_ID`);
+ALTER TABLE `posts` ADD FULLTEXT KEY `TITLE` (`TITLE`,`CONTENT`);
 
 --
 -- Indexes for table `sessions`
@@ -192,475 +169,22 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `COMMENT_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `COMMENT_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `POST_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `POST_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `SESSION_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `SESSION_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `USER_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;--
--- Database: `phpmyadmin`
---
-CREATE DATABASE IF NOT EXISTS `phpmyadmin` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
-USE `phpmyadmin`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__bookmark`
---
-
-CREATE TABLE `pma__bookmark` (
-  `id` int(11) NOT NULL,
-  `dbase` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `user` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `label` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `query` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Bookmarks';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__central_columns`
---
-
-CREATE TABLE `pma__central_columns` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_type` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_length` text COLLATE utf8_bin,
-  `col_collation` varchar(64) COLLATE utf8_bin NOT NULL,
-  `col_isNull` tinyint(1) NOT NULL,
-  `col_extra` varchar(255) COLLATE utf8_bin DEFAULT '',
-  `col_default` text COLLATE utf8_bin
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Central list of columns';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__column_info`
---
-
-CREATE TABLE `pma__column_info` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `column_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `comment` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `mimetype` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
-  `transformation` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `input_transformation` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `input_transformation_options` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__designer_settings`
---
-
-CREATE TABLE `pma__designer_settings` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `settings_data` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Settings related to Designer';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__export_templates`
---
-
-CREATE TABLE `pma__export_templates` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `export_type` varchar(10) COLLATE utf8_bin NOT NULL,
-  `template_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `template_data` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved export templates';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__favorite`
---
-
-CREATE TABLE `pma__favorite` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `tables` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Favorite tables';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__history`
---
-
-CREATE TABLE `pma__history` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `timevalue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `sqlquery` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='SQL history for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__navigationhiding`
---
-
-CREATE TABLE `pma__navigationhiding` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `item_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `item_type` varchar(64) COLLATE utf8_bin NOT NULL,
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hidden items of navigation tree';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__pdf_pages`
---
-
-CREATE TABLE `pma__pdf_pages` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `page_nr` int(10) UNSIGNED NOT NULL,
-  `page_descr` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='PDF relation pages for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__recent`
---
-
-CREATE TABLE `pma__recent` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `tables` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Recently accessed tables';
-
---
--- Dumping data for table `pma__recent`
---
-
-INSERT INTO `pma__recent` (`username`, `tables`) VALUES
-('root', '[{"db":"data","table":"posts"},{"db":"data","table":"comments"},{"db":"data","table":"users"},{"db":"data","table":"sessions"},{"db":"mysql","table":"general_log"}]');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__relation`
---
-
-CREATE TABLE `pma__relation` (
-  `master_db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `master_table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `master_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `foreign_db` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `foreign_table` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `foreign_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Relation table';
-
---
--- Dumping data for table `pma__relation`
---
-
-INSERT INTO `pma__relation` (`master_db`, `master_table`, `master_field`, `foreign_db`, `foreign_table`, `foreign_field`) VALUES
-('data', 'comments', 'POST_ID', 'data', 'posts', 'POST_ID'),
-('data', 'comments', 'USER_ID', 'data', 'users', 'USER_ID'),
-('data', 'posts', 'USER_ID', 'data', 'users', 'USER_ID'),
-('data', 'sessions', 'USER_ID', 'data', 'users', 'USER_ID');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__savedsearches`
---
-
-CREATE TABLE `pma__savedsearches` (
-  `id` int(5) UNSIGNED NOT NULL,
-  `username` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `search_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `search_data` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Saved searches';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_coords`
---
-
-CREATE TABLE `pma__table_coords` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `pdf_page_number` int(11) NOT NULL DEFAULT '0',
-  `x` float UNSIGNED NOT NULL DEFAULT '0',
-  `y` float UNSIGNED NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table coordinates for phpMyAdmin PDF output';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_info`
---
-
-CREATE TABLE `pma__table_info` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `display_field` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table information for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__table_uiprefs`
---
-
-CREATE TABLE `pma__table_uiprefs` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `prefs` text COLLATE utf8_bin NOT NULL,
-  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tables'' UI preferences';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__tracking`
---
-
-CREATE TABLE `pma__tracking` (
-  `db_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
-  `version` int(10) UNSIGNED NOT NULL,
-  `date_created` datetime NOT NULL,
-  `date_updated` datetime NOT NULL,
-  `schema_snapshot` text COLLATE utf8_bin NOT NULL,
-  `schema_sql` text COLLATE utf8_bin,
-  `data_sql` longtext COLLATE utf8_bin,
-  `tracking` set('UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE','ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE','RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX','CREATE VIEW','ALTER VIEW','DROP VIEW') COLLATE utf8_bin DEFAULT NULL,
-  `tracking_active` int(1) UNSIGNED NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database changes tracking for phpMyAdmin';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__userconfig`
---
-
-CREATE TABLE `pma__userconfig` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `timevalue` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `config_data` text COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User preferences storage for phpMyAdmin';
-
---
--- Dumping data for table `pma__userconfig`
---
-
-INSERT INTO `pma__userconfig` (`username`, `timevalue`, `config_data`) VALUES
-('root', '2016-12-12 04:47:17', '{"collation_connection":"utf8mb4_unicode_ci"}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__usergroups`
---
-
-CREATE TABLE `pma__usergroups` (
-  `usergroup` varchar(64) COLLATE utf8_bin NOT NULL,
-  `tab` varchar(64) COLLATE utf8_bin NOT NULL,
-  `allowed` enum('Y','N') COLLATE utf8_bin NOT NULL DEFAULT 'N'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User groups with configured menu items';
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pma__users`
---
-
-CREATE TABLE `pma__users` (
-  `username` varchar(64) COLLATE utf8_bin NOT NULL,
-  `usergroup` varchar(64) COLLATE utf8_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and their assignments to user groups';
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `pma__central_columns`
---
-ALTER TABLE `pma__central_columns`
-  ADD PRIMARY KEY (`db_name`,`col_name`);
-
---
--- Indexes for table `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `db_name` (`db_name`,`table_name`,`column_name`);
-
---
--- Indexes for table `pma__designer_settings`
---
-ALTER TABLE `pma__designer_settings`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_user_type_template` (`username`,`export_type`,`template_name`);
-
---
--- Indexes for table `pma__favorite`
---
-ALTER TABLE `pma__favorite`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__history`
---
-ALTER TABLE `pma__history`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `username` (`username`,`db`,`table`,`timevalue`);
-
---
--- Indexes for table `pma__navigationhiding`
---
-ALTER TABLE `pma__navigationhiding`
-  ADD PRIMARY KEY (`username`,`item_name`,`item_type`,`db_name`,`table_name`);
-
---
--- Indexes for table `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  ADD PRIMARY KEY (`page_nr`),
-  ADD KEY `db_name` (`db_name`);
-
---
--- Indexes for table `pma__recent`
---
-ALTER TABLE `pma__recent`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__relation`
---
-ALTER TABLE `pma__relation`
-  ADD PRIMARY KEY (`master_db`,`master_table`,`master_field`),
-  ADD KEY `foreign_field` (`foreign_db`,`foreign_table`);
-
---
--- Indexes for table `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `u_savedsearches_username_dbname` (`username`,`db_name`,`search_name`);
-
---
--- Indexes for table `pma__table_coords`
---
-ALTER TABLE `pma__table_coords`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`pdf_page_number`);
-
---
--- Indexes for table `pma__table_info`
---
-ALTER TABLE `pma__table_info`
-  ADD PRIMARY KEY (`db_name`,`table_name`);
-
---
--- Indexes for table `pma__table_uiprefs`
---
-ALTER TABLE `pma__table_uiprefs`
-  ADD PRIMARY KEY (`username`,`db_name`,`table_name`);
-
---
--- Indexes for table `pma__tracking`
---
-ALTER TABLE `pma__tracking`
-  ADD PRIMARY KEY (`db_name`,`table_name`,`version`);
-
---
--- Indexes for table `pma__userconfig`
---
-ALTER TABLE `pma__userconfig`
-  ADD PRIMARY KEY (`username`);
-
---
--- Indexes for table `pma__usergroups`
---
-ALTER TABLE `pma__usergroups`
-  ADD PRIMARY KEY (`usergroup`,`tab`,`allowed`);
-
---
--- Indexes for table `pma__users`
---
-ALTER TABLE `pma__users`
-  ADD PRIMARY KEY (`username`,`usergroup`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `pma__bookmark`
---
-ALTER TABLE `pma__bookmark`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `pma__column_info`
---
-ALTER TABLE `pma__column_info`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `pma__export_templates`
---
-ALTER TABLE `pma__export_templates`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `pma__history`
---
-ALTER TABLE `pma__history`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `pma__pdf_pages`
---
-ALTER TABLE `pma__pdf_pages`
-  MODIFY `page_nr` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `pma__savedsearches`
---
-ALTER TABLE `pma__savedsearches`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT;--
--- Database: `test`
---
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `test`;
-
+  MODIFY `USER_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
