@@ -1,5 +1,8 @@
-## README ##
-## git@bitbucket.org:dongocduc311997/cvwo_blog.git ##
+## README                                                 ##
+## git@bitbucket.org:dongocduc311997/cvwo_blog.git        ##
+## An online working version of the blog is available on: ##
+## http://cvwo-blog.freevnn.com                           ##
+
 
 ******************************
 *  Name: Do Ngoc Duc         *
@@ -17,28 +20,12 @@
 			- I can register for an account.
 			- I can filter posts by users.
 			- I can insert multimedia contents into my post.
+			- I can search for posts
 		* To be implemented:
 			- I can filter my own posts by date posted.
 			- I can have my profile page.
 
-2. How to deploy:
-		* In XAMPP Control Panel, turn on Apache and MySQL.
-		* Open config.inc.php, locate the following:
-				$cfg['Servers'][$i]['auth_type']
-				and set it to:
-				$cfg['Servers'][$i]['auth_type'] = 'http';
-				(so that admin can login to sql server using web browser)
-		* Go to http://localhost/phpmyadmin and using the following login:
-				user: root
-				no password
-		* Change the password for root@localhost to 'root'
-		* Run the SQL commands as in file schema.sql to set up the database
-		* Go to http://localhost/cvwo_blog/src to login
-		* Here is a test account. Registering for other accounts is possible:
-				user: dongocduc
-				password: iamadmin
-
-3. Main changelogs (according to git commits):
+2. Main changelogs (according to git commits):
 		* 13 Dec: set up database.php (PDO connection) and index.php (listing all posts)
 		 					set up create.php (create a blog post)
 		* 14 Dec: set up login.php (only registered users can access index.php)
@@ -59,7 +46,7 @@
 							implement responsive filemanager for uploading attachments to posts
 		* 27 Dec: implement AJAX php live search
 
-4. To-do list (sorted by priority):
+3. To-do list (sorted by priority):
 		* Add filter own posts by date
 		* Support user profiling (profile picture, name, age, sex, etc.)
 		* Implement AJAX to user actions (create, delete, comment, filter, search) to improve UX
